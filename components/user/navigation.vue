@@ -67,6 +67,9 @@
   right: 0
   background-color: white
   height: 60px
+  max-width: 400px
+  margin-left: auto
+  margin-right: auto
   box-shadow: 0px -1px 2px rgba(0,0 ,0 ,0.15)
 
   .nav-tab

@@ -23,7 +23,7 @@
         </div>
       </b-modal>
 
-      <div dir="ltr" id="pay-checkout">
+      <center><div dir="ltr" id="pay-checkout">
         <div @click="paymentCheckout" dir="rtl" class="pc-child pay-checkout-btn green">
           <b-icon class="credit-card-icon" icon="credit-card" type="is-light"></b-icon>پرداخت آنلاین
         </div>
@@ -36,7 +36,7 @@
             <b-icon icon="dots-vertical" type></b-icon>
           </div>
         </div>
-      </div>
+      </div></center>
 
       <div class="table-header cp-header cp-tb-padding cp-side-padding">
         <div class="info">
