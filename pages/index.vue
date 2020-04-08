@@ -184,7 +184,9 @@
       <P>آدرس: شیراز میدان پارسه یقطین جنوبی کوچه ۲۱ ساختمان اپادانا واحد ۸ 
       - تلفن تماس: ۰۷۱۳۸۳۲۵۴۷۴</P>
       <p dir="rtl" class="font-14 font-norm">کلیه حقوق این سایت (کافه‌پِی) متعلق به هوشمندسازان ویرا آرین می‌باشد.</p>
- 
+<a target="_blank" href="https://trustseal.enamad.ir/?id=151125&amp;Code=JqBoaBpmXtRClu4juASL"><img src="https://Trustseal.eNamad.ir/logo.aspx?id=151125&amp;Code=JqBoaBpmXtRClu4juASL" alt="" style="cursor:pointer" id="JqBoaBpmXtRClu4juASL"></a>
+
+
     </section>
   </div>
 </template>{
