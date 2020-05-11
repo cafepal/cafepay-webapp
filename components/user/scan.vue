@@ -29,6 +29,8 @@
     </b-modal>
 
     <div class="camera">
+      <qrcode-stream @decode="fakeQr"></qrcode-stream>
+
       <b-button @click="openCodeModal" class="enter-code-btn" type="is-info">وارد کردن کد میز</b-button>
     </div>
 
@@ -63,7 +65,14 @@
 import userImg from '~/assets/img/user.jpg'
 import walletIcon from '~/assets/img/shape/icons/wallet.png'
 import myCafe from '~/assets/img/shape/icons/my-cafe-2.svg'
+import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader'
+
   export default {
+    components: {
+      QrcodeStream,
+      QrcodeDropZone,
+      QrcodeCapture
+    },
     data() {
       return {
         userImg, walletIcon, myCafe,
@@ -72,6 +81,9 @@ import myCafe from '~/assets/img/shape/icons/my-cafe-2.svg'
       }
     },
     methods: {
+      fakeQr(dataUrl,id){
+        this.sendCode()
+      },
       closeModal(){
         this.isComponentModalActive = false
       },
