@@ -2,7 +2,7 @@
   <div class="root cp-side-padding">
     <div class="cafe-navigator long-shadow cp-header-card has-background-white">
       <b-tabs v-model="ActiveTab" expanded dir="ltr" type="is-toggle">
-          <b-tab-item :disabled="true" label="پست‌ها" >
+          <b-tab-item :disabled="false" label="پست‌ها" >
             <posts :isActive="(ActiveTab == 0) ? true : false"/>
           </b-tab-item>
 
@@ -10,7 +10,7 @@
             <comments/>
           </b-tab-item>
           
-          <b-tab-item :disabled="true" label="اطلاعات" >
+          <b-tab-item :disabled="false" label="اطلاعات" >
             <info :isActive="(ActiveTab == 2) ? true : false" />
           </b-tab-item>
 

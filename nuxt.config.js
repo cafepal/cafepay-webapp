@@ -62,7 +62,7 @@ export default {
    ** Global CSS
    */
   css: [
-    '@assets/fontawesome/css/all.min.css',
+    // '@assets/fontawesome/css/all.min.css',
     '@assets/sass/cafepay.sass',
     // "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"
   ],

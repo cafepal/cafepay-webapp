@@ -62,19 +62,19 @@
           </li>
         </nuxt-link> -->
 
-        <!-- <nuxt-link to="/user/profile/orderlist">
-          <li class="cp-card has-background-white cp-side-padding cp-tb-padding">
+        <!-- <nuxt-link to="/user/profile/orderlist"> -->
+          <li class="cp-card has-background-white disable-profile-navigator cp-side-padding cp-tb-padding">
             <img src="@/assets/img/shape/icons/shopping-cart.png" alt />
             لیست سفارشات
           </li>
-        </nuxt-link> -->
+        <!-- </nuxt-link> -->
 
-        <!-- <nuxt-link to="/user/profile/wallet">
-          <li class="cp-card navigation has-background-white cp-side-padding cp-tb-padding">
+        <!-- <nuxt-link to="/user/profile/wallet"> -->
+          <li class="cp-card navigation has-background-white disable-profile-navigator cp-side-padding cp-tb-padding">
             <img src="@/assets/img/shape/icons/wallet.png" alt />
             افزایش موجودی
           </li>
-        </nuxt-link> -->
+        <!-- </nuxt-link> -->
 
         <nuxt-link to="/user/profile/information">
           <li class="cp-card has-background-white cp-side-padding cp-tb-padding">
@@ -104,6 +104,12 @@
           خروج از حساب کاربری
         </li>
       </ul>
+
+      <div class="version-info">
+        <img src="@/assets/img/shape//logo-transparent.png" alt="">
+        <!-- <p>نسخه 0.9.1</p> -->
+        <p>version 0.9.1</p>
+      </div>
     </div>
   </div>
   </div>

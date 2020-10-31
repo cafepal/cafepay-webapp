@@ -33,7 +33,7 @@
         <div class="iconed-text">
           <b-icon class="phone-icon" size="is-default" icon="phone"></b-icon>
           <b-skeleton :active="globalLoading" width="100%" :animated="true"></b-skeleton>
-          <span v-if="!globalLoading" dir="rtl">{{addressInfo.phone_number}}</span>
+          <span v-if="!globalLoading" dir="rtl">{{(info.phones.length > 0) ? info.phones[0] : 'شماره تماس ثبت نشده'}}</span>
         </div>
 
         <div class="iconed-text">
@@ -47,11 +47,12 @@
         </div>
 
         <div class="cp-map short-shadow">
-          <cafepay-map
-            :isActive="isActive"
-            :cafeName="cafe.name"
-            :cordinateX="addressInfo.location_x"
-            :cordinateY="addressInfo.location_y"
+          <b-skeleton :active="globalLoading" width="100%" height="150px" :animated="true"></b-skeleton>
+          <cafepay-map v-if="!globalLoading"
+            :isActive="mapActive"
+            :cafeName="info.name"
+            :cordinateX="info.location.split(',')[0]"
+            :cordinateY="info.location.split(',')[1]"
             maxZoom="17"
           />
         </div>
@@ -72,7 +73,7 @@ export default {
       apiCall: true,
       gallerySkel: 3,
       isImageModalActive: false,
-   
+      mapActive: false,
       currentImg: null,
 
       addressInfo: {
@@ -88,7 +89,10 @@ export default {
         chef: {},
         staff: []
       },
-      info: {}
+      info: {
+        phones: [],
+        location: ''
+      }
     }
   },
   props: {
@@ -108,7 +112,9 @@ export default {
         method: 'get',
         url: `api/v1/cafe/${this.cafe.pk}/basic/info/`,
       })
+      // data.data.location = `${this.addressInfo.location_x},${this.addressInfo.location_y}`
       this.info = data.data
+      this.mapActive = true
       console.log('cafe basic info', this.data);
       this.apiCall = false
       }

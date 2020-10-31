@@ -1,11 +1,21 @@
 <template>
   <div class="cafe-posts-info cp-tb-margin cp-tb-padding cp-side-padding">
-    {{apiCall}}
+    <!-- {{apiCall}} -->
     <b-modal :active.sync="isPostImageModalActive">
       <p class="image is-4by3">
         <img :src="currentImg" />
       </p>
     </b-modal>
+
+    <b-skeleton
+      v-for="i in skeletonNum"
+      :key="i"
+      size="is-large"
+      width="100%"
+      height="200px"
+      :active="globalLoading && posts.length == 0"
+      :animated="true"
+    ></b-skeleton>
 
     <div
       v-for="(post, index) in posts"
@@ -16,27 +26,28 @@
         class="post-type-label"
         :style="{ backgroundColor: `${post.type.color}` }"
       >
-        {{ post.type.title }}
+        {{ post.type.name }}
       </span>
 
       <div
-        @click="setCurrentImg(post.img)"
+        @click="setCurrentImg(post.image)"
         class="img"
         :style="{
-          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.5),rgba(0, 246, 252, 0.2)),url(${post.img})`
+          backgroundImage: `url(${post.image})`
         }"
       >
-        <p class="post-title font-16 right-align">{{ post.title }}</p>
+        <!-- backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.5),rgba(0, 246, 252, 0.2)),url(${post.image})` -->
+        <!-- <p class="post-title font-16 right-align">{{ post.description }}</p> -->
       </div>
 
       <div class="post-content cp-tb-padding cp-side-padding">
-        <p class="post-content right-align">{{ post.content }}</p>
+        <p class="post-content right-align">{{ post.description }}</p>
       </div>
 
       <div class="post-action cp-side-padding">
         <transition name="router-anim" mode="out-in">
-          <span class="likes-count" :key="post.likes">
-            {{ post.likes | currency }}
+          <span class="likes-count" :key="post.likes_count">
+            {{ post.likes_count | currency }}
           </span>
           <!-- <span v-if="post.is_liked" :key="1">like shode</span>
         <span v-else :key="2">like nashode</span> -->
@@ -45,7 +56,7 @@
         <div class="icon-container">
           <b-icon
             :class="{ bounceIn: post.is_liked, flxipInY: !post.is_liked }"
-            @click.native="likeToggle(index)"
+            @click.native="likeToggle(index, post.pk)"
             size="is-medium"
             class="like-icon animated"
             :icon="post.is_liked ? 'heart' : 'heart-outline'"
@@ -62,57 +73,9 @@ export default {
     return {
       isPostImageModalActive: false,
       currentImg: null,
-      postsTest: [],
-      apiCall: true,
-      posts: [
-        {
-          img: '',
-          type: {
-            id: 1,
-            title: 'تخفیف',
-            color: '#E91E63'
-          },
-          img:
-            'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-          title: 'تخفیف ۵۰ درصدی کافه هدایت',
-          content:
-            'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-          likes: 859,
-          is_liked: false
-        },
-
-        {
-          img: '',
-          type: {
-            id: 3,
-            title: 'رویداد',
-            color: '#20BC32'
-          },
-          img:
-            'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-          title: 'مسابقه بورد گیم همراه با جوایز',
-          content:
-            'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-          likes: 1576,
-          is_liked: false
-        },
-
-        {
-          img: '',
-          type: {
-            id: 2,
-            title: 'محصول جدید',
-            color: '#009fe3'
-          },
-          img:
-            'https://www.athenaspahotel.com/media/cache/jadro_resize/rc/tnxrezCu1579080551/jadroRoot/medias/_a1a8429.jpg',
-          title: 'پاستا سیسیتینو محصول جدید کافه هدایت',
-          content:
-            'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد',
-          likes: 24,
-          is_liked: false
-        }
-      ]
+      posts: [],
+      skeletonNum: 3,
+      apiCall: true
     }
   },
   props: {
@@ -121,39 +84,67 @@ export default {
       default: false
     }
   },
-  mounted(){
-    this.apiCall = true
-  },
+  mounted() {},
   methods: {
     setCurrentImg(imgUrl) {
       this.currentImg = imgUrl
       this.isPostImageModalActive = true
     },
-    likeToggle(index) {
-      // unlike
-      if (this.posts[index].is_liked) {
-        this.posts[index].likes += -1
-      }
-      // like
-      else {
-        this.posts[index].likes += 1
-      }
-      this.posts[index].is_liked = !this.posts[index].is_liked
+    likeToggle(index, id) {
+            // unlike
+        if (this.posts[index].is_liked) {
+          this.posts[index].likes_count += -1
+        }
+        // like
+        else {
+          this.posts[index].likes_count += 1
+        }
+        this.posts[index].is_liked = !this.posts[index].is_liked
+        // this.$forceUpdate()
+      
+        this.$api({
+          url: `api/v1/post/${id}/like/`,
+          method: 'post'
+        })
+        .then(res=> {
+
+        })
+       .catch(err =>{
+              // unlike
+        if (this.posts[index].is_liked) {
+          this.posts[index].likes_count += 1
+        }
+        // like
+        else {
+          this.posts[index].likes_count += -1
+        }
+        this.posts[index].is_liked = !this.posts[index].is_liked
+      }) 
     },
     async getPostList() {
       try {
-      let data = await this.$axios({
-        method: 'get',
-        url: `api/v1/cafe/${this.cafe.pk}/post/list/`
-      })
-      this.postsTest = data.data
-      for (const post of postsTest) {
-        
-      }
-      console.log('cafe basic info', this.postsTest)
-      this.apiCall = false
-      }
-      catch(err) {
+        let data = await this.$api({
+          method: 'get',
+          url: `api/v1/cafe/${this.cafe.pk}/post/list/`
+        })
+        this.posts = data.data
+
+        for (let i = 0; i < this.posts.length; i++) {
+          let color
+          if (this.posts[i].type == 3) color = '#20BC32'
+          if (this.posts[i].type == 2) color = '#E91E63'
+          if (this.posts[i].type == 1) color = '#FFDB4A'
+          if (this.posts[i].type == 0) color = '#009fe3'
+
+          this.posts[i].type = {
+            id: this.posts[i].type,
+            name: this.posts[i].get_type_display,
+            color
+          }
+          console.log('posts', this.posts)
+        }
+        this.apiCall = false
+      } catch (err) {
         this.apiCall = false
       }
     }
