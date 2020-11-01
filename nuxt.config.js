@@ -93,6 +93,22 @@ export default {
     'nuxt-buefy',
   ],
 
+  
+
+  buildModules: [
+    [
+      "nuxt-compress",
+      {
+        gzip: {
+          cache: true
+        },
+        brotli: {
+          threshold: 10240
+        }
+      }
+    ]
+  ],
+
   router: {
     fallback: true
   },
