@@ -5,12 +5,30 @@
         <img :src="currentImg" />
       </p>
     </b-modal>
+
+
+    <section class="about cp-tb-margin">
+      <header class="right-align cp-b-margin font-18 font-norm">درباره</header>
+      <b-skeleton  width="100%" height="40px" :active="globalLoading" :animated="true"></b-skeleton>
+      <b-skeleton  width="100%" height="40px" :active="globalLoading" :animated="true"></b-skeleton>
+      <div v-if="!globalLoading" class="cp-card about-content 
+      cp-side-padding cp-b-margin cp-tb-padding">
+        {{info.description}}
+      </div>
+      <a :href="`https://www.instagram.com/${info.instagram}`">
+      <div v-if="!globalLoading && info.instagram" dir="ltr" 
+      class="instagram cp-card cp-side-padding has-background-white">
+        @{{info.instagram}}
+      </div>
+      </a>
+    </section>
+
     <section class="gallery cp-tb-margin">
       <header class="right-align font-18 font-norm">گالری تصاویر</header>
-      <div v-if="globalLoading" class="gallery-container cp-side-padding cp-tb-padding">
-        <b-skeleton size="is-large" width="100%" height="80px" :animated="true"></b-skeleton>
+      <div v-if="globalLoading" class="gallery-container cp-tb-padding">
+        <b-skeleton  width="100%" height="80px" :animated="true"></b-skeleton>
       </div>
-      <div v-else class="gallery-container cp-side-padding cp-tb-padding">
+      <div v-else class="gallery-container cp-tb-padding">
         <img
           @click="setCurrentImg(img.image)"
           class="short-shadow"
@@ -113,6 +131,7 @@ export default {
         url: `api/v1/cafe/${this.cafe.pk}/basic/info/`,
       })
       // data.data.location = `${this.addressInfo.location_x},${this.addressInfo.location_y}`
+      data.data.instagram = "shirazsuf"
       this.info = data.data
       this.mapActive = true
       console.log('cafe basic info', this.data);
