@@ -26,6 +26,24 @@ export const mutations = {
 
 export const actions = {
 
+  getOrderHistory(context) {
+    return new Promise((resolve, reject) => {
+
+      this.$api.$get('/api/v1/user-profile/orders/history/', {
+          params: {}
+        }).then(res => {
+          console.log('history res', res)
+          // context.commit('setHistoryOrder', res)
+          resolve(res)
+        })
+
+        .catch(err => {
+          reject(err)
+
+        })
+    })
+  },
+
   retrieve(context) {
     return new Promise((resolve, reject) => {
 

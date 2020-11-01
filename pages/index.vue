@@ -403,7 +403,7 @@
 <script>
 // import Logo from '~/components/Logo.vue'
 import logo from '~/assets/img/shape/logo-transparent-white-mixed.png'
-import background from '~/assets/img/background/320-2.jpg'
+import background from '~/assets/img/background/320-2-compressed.jpg'
 import mobilebc from '~/assets/img/background/320-3.jpg'
 
 export default {

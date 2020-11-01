@@ -48,6 +48,7 @@
             </p>
             <b-field class="field">
               <b-input
+                dir="ltr"
                 ref="codeInputProfile"
                 inputmode="numeric"
                 class="cp-input cp-input-primary cp-input-grey"
@@ -242,11 +243,13 @@ export default {
         })
         .then(res => {
           // we dont want to state the user as logged in before having his/her name
+          console.log('res data fuckign token', res.data.token)
           this.tempToken = res.data.token
           // check if it's the first time that user logged in by full name
           if (res.data.first_name == '') {
             this.state = 'signup'
           } else {
+            this.$store.commit('setToken', this.tempToken)
             this.$store.dispatch('user/retrieve').then(res => {
               //for entering to table
               this.$emit('successful')

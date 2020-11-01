@@ -24,7 +24,7 @@
             جهت اسکن بارکد توسط دوربین درون برنامه، لطفا بعد از مشاهده پیام زیر
             گزینه <span class="t-text font-norm">Allow</span> را انتخاب نمایید
           </p>
-          <img src="@/assets/img/camera-guide.png" alt="" />
+          <!-- <img src="@/assets/img/camera-guide.png" alt="" /> -->
         </section>
 
         <section class="modal-caption"></section>

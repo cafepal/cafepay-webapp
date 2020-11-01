@@ -13,7 +13,7 @@
         class="button shadow-md bcp-btn cp-btn-submit-order shadow-lg-bb"
         size="is-medium"
         type="is-info"
-        >ثبت سفارش</b-button
+        >ثبت سفارشات</b-button
       >
     </div>
 

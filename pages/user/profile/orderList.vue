@@ -57,7 +57,7 @@
       }
     },
     mounted(){
-      
+      this.$store.dispatch('user/getOrderHistory')
     }
   }
 </script>
