@@ -63,4 +63,10 @@ export const actions = {
 
   },
 
+  sendCode(context) {
+    return new Promise(() => {
+      
+    })
+  }
+
 }

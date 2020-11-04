@@ -243,7 +243,6 @@ export default {
         .then(res => {
           // we dont want to state the user as logged in before having his/her name
           this.tempToken = res.data.token
-          // console.log('res.data', res.data.token);
           // check if it's the first time that user logged in by full name
           if (res.data.first_name == '') {
             this.state = 'signup'

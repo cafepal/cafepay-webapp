@@ -89,7 +89,7 @@
           class="button shadow-lg-bb bcp-btn cp-btn-submit-order"
           size="is-medium"
           type="is-success"
-          >پرداخت سفارشات ({{ totalWishToPayOrder | currency }})</b-button
+          >پرداخت سهم من ({{ totalWishToPayOrder | currency }})</b-button
         >
       </div>
 
@@ -294,9 +294,9 @@ export default {
           }
         }
       }
-      this.preInvoiceActive = true
+        this.preInvoiceActive = true
       setTimeout(() => {
-   
+        
         let preInvoiceAnime = lottie.loadAnimation({
           container: document.getElementById('pre-invoice-animation'), // the dom element that will contain the animation
           renderer: 'svg',

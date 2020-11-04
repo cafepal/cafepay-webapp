@@ -72,14 +72,14 @@
           ></b-input>
         </b-field>
 
-        <b-field>
+        <!-- <b-field>
           <b-input
             v-model="userLocal.last_name"
             class="cp-input cp-input-primary "
             placeholder="نام خانوادگی"
             icon="account"
           ></b-input>
-        </b-field>
+        </b-field> -->
             
             
             <!-- @click.native="openChangeNumberModal" -->
@@ -176,6 +176,7 @@ export default {
       this.isChangeNumberModalActive = true
     },
     updateInformation() {
+      delete this.userLocal.last_name
       this.$api
         .put('/api/v1/user-profile/', this.userLocal)
         .then(res => {

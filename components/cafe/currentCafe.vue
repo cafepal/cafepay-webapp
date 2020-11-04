@@ -36,7 +36,8 @@
           ></b-rate> -->
         </div>
         <div @click="isCancelTableModalActive = true" class="go-back cp-tb-padding">
-          <b-icon class="close-icon" icon="close" size="is-medium" type="is-light"></b-icon>
+          <!-- بازگشت به اسکن -->
+          <b-icon class="close-icon" icon="qrcode-scan" size="is-medium" type="is-light"></b-icon>
         </div>
       </div>
 

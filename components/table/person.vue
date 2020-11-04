@@ -36,14 +36,14 @@
 
       <div class="person-payment">
         <span
-          >پرداخت شده:‌
+          >کل پرداخت شده:‌
           <span class="g-text"
             >{{ order.payment_info.payed_amount | currency
             }}<span class="toman">تومان</span></span
           ></span
         >
         <span
-          >پرداخت شما:‌
+          >پرداخت شما روی این محصول:‌
           <span class="p-text"
             >{{ order.my_payments.payed_amount | currency
             }}<span class="toman">تومان</span></span
