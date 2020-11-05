@@ -5,6 +5,7 @@ import {
 
 export const state = () => ({
   pk: null,
+  activeCategory: 1,
   name: null,
   avatar: null,
   cafepay_fee: 0,
@@ -71,6 +72,10 @@ export const mutations = {
 
   clearPCA: (state) => {
     state.productChangeArray = []
+  },
+
+  changeActiveCategory: (state, index) => {
+    state.activeCategory = index
   },
 
   bindProductCount(state, user) {

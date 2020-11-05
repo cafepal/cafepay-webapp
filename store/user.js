@@ -4,7 +4,14 @@
 // 3. number that can be Changed
 import Vue from 'vue'
 import User from '../middleware/models/user'
+import {
+  Table
+} from '../middleware/models/table'
 export const state = () => ({
+  history: {
+    count: 0,
+    data: [{}]
+  },
   user: {
 
   }
@@ -20,6 +27,18 @@ export const mutations = {
   },
   clear(state) {
     state.user = {}
+  },
+  setHistory(state, payload) {
+          state.history.count = payload.res.count
+          state.history.next = payload.res.next
+          for (let i = 0; i < payload.res.results.length; i++) {
+            let rawOrders = payload.res.results[i]
+            console.log('products here', payload.products);
+            let table = new Table(rawOrders, payload.products, this.state.user.id)
+            state.history.data.push(table)
+
+          }
+          console.log('history res', state.history)
   }
 
 }
@@ -32,7 +51,9 @@ export const actions = {
       this.$api.$get('/api/v1/user-profile/orders/history/', {
           params: {}
         }).then(res => {
-          console.log('history res', res)
+          let products = this.state.cafe.categories.map(c => c.products)
+          products = [].concat.apply([], products)
+          context.commit('setHistory', {products, res})
           // context.commit('setHistoryOrder', res)
           resolve(res)
         })
@@ -65,7 +86,7 @@ export const actions = {
 
   sendCode(context) {
     return new Promise(() => {
-      
+
     })
   }
 

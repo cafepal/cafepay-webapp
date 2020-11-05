@@ -6,11 +6,12 @@
       :options="myOptions"
       :callbacks="myCallbacks"
     ></v-tour>
-    <div id="selected-products-preview">
+    <div id="selected-products-preview" class="selected-products-preview-is-shown">
       <b-button
+        :disabled="!showSubmitBtn"
         @click="sumbitOnTable"
         :loading="globalLoading"
-        class="button shadow-md bcp-btn cp-btn-submit-order shadow-lg-bb"
+        class="button bcp-btn cp-btn-submit-order shadow-lg-bb"
         size="is-medium"
         type="is-info"
         >ثبت سفارشات</b-button
@@ -109,7 +110,6 @@ export default {
     return {
       skeletunMenu: 3,
       key: 'value',
-      activeCategory: 1,
       count: 0,
       totalPrice: 0,
       orderList: [],
@@ -161,10 +161,10 @@ export default {
 
     changeActiveCategory(index) {
 
-      if (this.activeCategory > index)
-        this.slideTransition = 'slide-category-prev'
-      else this.slideTransition = 'slide-category-next'
-      this.activeCategory = index
+      // if (this.activeCategory > index)
+      //   this.slideTransition = 'slide-category-prev'
+      // else this.slideTransition = 'slide-category-next'
+      this.$store.commit('cafe/changeActiveCategory', index)
     },
 
     countChange(index, count, product) {
@@ -208,6 +208,9 @@ export default {
   },
  
   computed: {
+    activeCategory(){
+      return this.$store.state.cafe.activeCategory
+    },
      isMenuPage() {
       return (this.$store.state.currentMainPage == 'currentCafe')
     },
@@ -251,18 +254,18 @@ export default {
         }
       }
     },
-    showSubmitBtn(val, old) {
-      if (val > 0) {
-        document
-          .getElementById('selected-products-preview')
-          .classList.add('selected-products-preview-is-shown')
-      } else {
-        this.$store.commit('table/setOrder', { orders: [], totalPrice: 0 })
-        document
-          .getElementById('selected-products-preview')
-          .classList.remove('selected-products-preview-is-shown')
-      }
-    },
+    // showSubmitBtn(val, old) {
+    //   if (val > 0) {
+    //     document
+    //       .getElementById('selected-products-preview')
+    //       .classList.add('selected-products-preview-is-shown')
+    //   } else {
+    //     this.$store.commit('table/setOrder', { orders: [], totalPrice: 0 })
+    //     document
+    //       .getElementById('selected-products-preview')
+    //       .classList.remove('selected-products-preview-is-shown')
+    //   }
+    // },
     ActiveTab(val) {
       if (!val) {
         document

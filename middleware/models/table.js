@@ -4,7 +4,7 @@
 import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-bottts-sprites';
 
-export const socketTable = class socketTable {
+export const Table = class Table {
   constructor(rawData = {}, products = {}, currentUserId = {}) {
 
 

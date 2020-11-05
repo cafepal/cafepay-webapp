@@ -21,7 +21,7 @@
           <div class="order-history has-background-white cp-card cp-side-padding cp-tb-padding" 
           v-for="oh in orders" :key="oh.id">
             <div class="oh-info">
-              <img :src="oh.avatar" alt="">
+              <!-- <img :src="oh.avatar" alt=""> -->
               <div class="oh-content cp-side-padding">
                 <p class="oh-header font-16 font-norm ">{{oh.cafeName}}</p>
                 <p class="oh-detail font-14">

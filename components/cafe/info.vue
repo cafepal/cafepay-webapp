@@ -51,16 +51,14 @@
         <div class="iconed-text">
           <b-icon class="phone-icon" size="is-default" icon="phone"></b-icon>
           <b-skeleton :active="globalLoading" width="100%" :animated="true"></b-skeleton>
-          <span v-if="!globalLoading" dir="rtl">{{(info.phones.length > 0) ? info.phones[0] : 'شماره تماس ثبت نشده'}}</span>
+          <span v-if="!globalLoading" dir="rtl">{{(info.phone) ? info.phone : 'شماره تماس ثبت نشده'}}</span>
         </div>
 
-        <div class="iconed-text">
+        <div v-if="info.working_times" class="iconed-text">
           <b-icon  class size="is-default" icon="clock-outline"></b-icon>
           <b-skeleton :active="globalLoading" width="100%" :animated="true"></b-skeleton>
           <span v-if="!globalLoading">
-            ساعات کاری از
-            <b class="font-norm">۱۲ صبح</b> تا
-            <b class="font-norm">۱۰ شب</b>
+            {{info.working_times}}
           </span>
         </div>
 
@@ -109,7 +107,8 @@ export default {
       },
       info: {
         phones: [],
-        location: ''
+        location: '',
+        working_times: null
       }
     }
   },
@@ -131,10 +130,9 @@ export default {
         url: `api/v1/cafe/${this.cafe.pk}/basic/info/`,
       })
       // data.data.location = `${this.addressInfo.location_x},${this.addressInfo.location_y}`
-      data.data.instagram = "shirazsuf"
       this.info = data.data
       this.mapActive = true
-      console.log('cafe basic info', this.data);
+      console.log('cafe basic info', this.info);
       this.apiCall = false
       }
       catch(err) {

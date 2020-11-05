@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 import {
-  socketTable
+  Table
 } from '../middleware/models/table'
 export const state = () => ({
 
@@ -63,7 +63,7 @@ export const mutations = {
     let products = this.state.cafe.categories.map(c => c.products)
     products = [].concat.apply([], products)
     // we pass the user id for slider to be full for user
-    let table = new socketTable(rawData, products, this.state.user.user.id)
+    let table = new Table(rawData, products, this.state.user.user.id)
     state.persons = table.persons
     state.payment = rawData.payment_info
 
@@ -205,6 +205,7 @@ export const actions = {
           context.commit("toggleLoading", false, {
             root: true
           })
+          // clear product change array
           context.commit('cafe/clearPCA', null, {
             root: true
           })
@@ -212,7 +213,11 @@ export const actions = {
             context.commit('changeNavigation', 'cp-table', {
               root: true
             })
+            context.commit('cafe/changeActiveCategory', 0, {
+              root: true
+            })
           }, 200);
+          
 
         }))
         .catch(err => {
@@ -221,9 +226,18 @@ export const actions = {
           })
           //... but this callback will be executed only when both requests are complete.
           if (err.response) {
-            context.commit('errorMsg', err.response.data, {
-              root: true
-            })
+            // context.commit('errorMsg', err.response.data, {
+            //   root: true
+            // })
+            if (err.response.status == 400 & err.response.data.details[0].product) {
+              let id = err.response.data.details[0].product
+              let remaining = err.response.data.details[0].remaining
+              let product = context.rootGetters["cafe/productById"](id)
+              let message = (remaining > 0) ? `از محصول ${product.name} فقط ${remaining} موجود است` : `${product.name} تمام شده است`
+              context.commit('errorMsg', message, {
+                root: true
+              })
+            }
           }
 
         })
@@ -240,6 +254,9 @@ export const actions = {
         })
         setTimeout(() => {
           context.commit('changeNavigation', 'cp-table', {
+            root: true
+          })
+          context.commit('cafe/changeActiveCategory', 0, {
             root: true
           })
         }, 200);

@@ -3,25 +3,22 @@
     <div v-if="hasActiveTable" class="has-active-table">
       <b-modal
         class="table-options-modal simple-action-modal"
-        :active.sync="isTableOptionsModalActive"
+        :active.sync="descriptionModalActive"
         has-modal-card
         :can-cancel="true"
-        
       >
         <div class="modal-card" style="width: auto">
           <section class="modal-card-body">
-            <div class="field last-checkbox-field">
-              <b-checkbox v-model="fullPayment" size="is-large" type="is-info"
-                >پرداخت کل فاکتور</b-checkbox
-              >
-            </div>
+              <b-field>
+                <b-input class="is-noborder-input" v-model="description" maxlength="200" type="textarea" placeholder="توضیحات سفارش خود را اینجا بنویسید ..."></b-input>
+              </b-field>
             <b-button
               @click="changeTableOptions"
               expanded
               class="change-table-options-btn"
               size="is-medium"
               type="is-info"
-              >اعمال تغییرات</b-button
+              >ثبت توضیح</b-button
             >
           </section>
         </div>
@@ -32,7 +29,6 @@
         :active.sync="preInvoiceActive"
         has-modal-card
         :can-cancel="true"
-        
       >
         <div class="modal-card" style="width: auto">
           <section class="modal-dialog">
@@ -83,7 +79,8 @@
       </b-modal>
 
       <div id="pay-checkout" class="pay-checkout-is-shown">
-        <b-button :disabled="(totalWishToPayOrder == 0)"
+        <b-button
+          :disabled="totalWishToPayOrder == 0"
           @click="showPreInvoice"
           :loading="globalLoading"
           class="button shadow-lg-bb bcp-btn cp-btn-submit-order"
@@ -93,82 +90,81 @@
         >
       </div>
 
-      <!-- <div dir="ltr" id="pay-checkout">
-        <b-button
-          :loading="globalLoading"
-          @click="paymentCheckout"
-          class="checkCode-btn pay-checkout-btn bcp-btn bcp-btn-large"
-          expanded
-          type="is-info"
-          >پرداخت آنلاین</b-button
-        > -->
 
-      <!-- <div @click="paymentCheckout" dir="rtl" class="pc-child pay-checkout-btn green">
-          <b-icon class="credit-card-icon" icon="credit-card" type="is-light"></b-icon>پرداخت آنلاین
-        </div>-->
-      <!-- <div class="pc-child pay-checkout-info cp-side-padding">
-          <div dir="rtl" class="total-price cp-side-margin font-norm">
-            {{ totalWishToPay | currency }}
-            <span class="toman">تومان</span>
-          </div>
-          <div @click="showOptionsModal" class>
-            <b-icon icon="dots-vertical" type></b-icon>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <v-tour name="myTour" :steps="steps" :options="{ highlight: true }"></v-tour> -->
 
       <div class="table-header cp-header cp-tb-padding cp-side-padding">
-        <div class="info">
-          <img
-            :src="
-              cafe.avatar == null ? cafeDefaultImage : baseUrl + cafe.avatar
-            "
-            alt
-          />
-          <p class="cafe-name cp-tb-padding cp-side-padding">{{ cafe.name }}</p>
-          <h5 class="table-number cp-tb-padding cp-side-padding">
-            {{ table.table_number }}
-          </h5>
-        </div>
+        <!-- <div class="table-top-section">
+          <div
+            class="table-top-section__name  cp-tb-padding-half cp-side-padding"
+          >
+            <h5 class="">
+              میز:  <span class="font-norm"> {{ table.table_number }} </span>
+            </h5>
+          </div>
+
+          <div class="table-top-section__edit-orders">
+            <b-button @click="goToMyOrderInMenu" type="is-danger" inverted>ویرایش سفارشات</b-button>
+          </div>
+        </div> -->
+
         <div
-          @click="$store.commit('changeNavigation', 'currentCafe')"
-          class="go-back cp-tb-padding"
+          id="table-status-bar"
+          class="table-status-bar long-shadow cp-padding cp-header-card has-background-white"
         >
-          <b-icon size="is-medium" icon="chevron-left" type="is-light"></b-icon>
+               <div class="table-top-section">
+          <div
+            class="table-top-section__name  cp-tb-padding-half cp-side-padding"
+          >
+            <h5 class="">
+              میز:  <span class="font-norm"> {{ table.table_number }} </span>
+            </h5>
+          </div>
+
+          <div class="table-top-section__edit-orders">
+            <b-button @click="goToMyOrderInMenu" class="shadow-b" type="is-danger" inverted >ویرایش سفارشات</b-button>
+          </div>
         </div>
-      </div>
+          <div class="table-status-bar__actions">
+            <div class="table-status-bar__actions__pay-whole-bill">
+              <b-button @click="changeTableOptions" type="is-light" inverted>پرداخت کل سفارش</b-button>
+            </div>
 
-      <div
-        id="table-status-bar"
-        class="table-status-bar long-shadow cp-side-margin cp-header-card has-background-white"
-      >
-        <div id="table-status-bar-progress-wrapper" class></div>
-        <p v-if="PaymentProgress != 100">
-          باقی‌مانده:
-          <span class="p-text font-norm total-payment">{{
-            (table.payment.total_amount - table.payment.payed_amount) | currency
-          }}</span>
-          از
-          <span class="total-cost">{{
-            table.payment.total_amount | currency
-          }}</span>
-          تومان
-        </p>
+            <div class="table-status-bar__actions__order-description">
+              <b-button @click="openDesctiptionModal" type="is-light" inverted>ثبت توضیحات</b-button>
+            </div>
+          </div>
 
-        <p
-          :class="{ 'complete-payment-p': PaymentProgress }"
-          v-if="PaymentProgress == 100"
-          class="font-norm total-payment"
-        >
-          پرداخت میز کامل شده است
-        </p>
-        <b-icon
-          v-if="PaymentProgress == 100"
-          class="g-text payment-completed-icon"
-          icon="sticker-check"
-        ></b-icon>
+          <div
+            id="table-status-bar-progress-wrapper"
+            class="table-status-bar__info cp-tb-padding-half"
+          >
+            <p v-if="PaymentProgress != 100">
+              باقی‌مانده:
+              <span class="p-text font-norm total-payment">{{
+                (table.payment.total_amount - table.payment.payed_amount)
+                  | currency
+              }}</span>
+              از
+              <span class="total-cost">{{
+                table.payment.total_amount | currency
+              }}</span>
+              تومان
+            </p>
+
+            <p
+              :class="{ 'complete-payment-p': PaymentProgress }"
+              v-if="PaymentProgress == 100"
+              class="font-norm total-payment"
+            >
+              پرداخت میز کامل شده است
+            </p>
+            <b-icon
+              v-if="PaymentProgress == 100"
+              class="g-text payment-completed-icon"
+              icon="sticker-check"
+            ></b-icon>
+          </div>
+        </div>
       </div>
 
       <!-- <div class="table--status"></div> -->
@@ -178,7 +174,6 @@
       </div>
 
       <div class="persons-on-table cp-side-margin-2x">
-    
         <!-- <div class="you">
           <person :person="table.you" title="شما" />
         </div>-->
@@ -227,13 +222,14 @@ export default {
   data() {
     return {
       key: 1,
-      isTableOptionsModalActive: false,
+      descriptionModalActive: false,
       fullPayment: false,
       cafeDefaultImage,
       preInvoiceAnimation,
       ordersToPay: [],
       ordersToPayforServer: [],
-      preInvoiceActive: false
+      preInvoiceActive: false,
+      description: ''
     }
   },
   computed: {
@@ -241,7 +237,7 @@ export default {
       return this.$store.state.cafe
     },
     cafepayFee() {
-      return this.totalWishToPayOrder * (this.cafe.cafepay_fee)
+      return this.totalWishToPayOrder * this.cafe.cafepay_fee
     },
     totaltoPay() {
       return this.totalWishToPayOrder + this.cafepayFee
@@ -267,6 +263,15 @@ export default {
     // }
   },
   methods: {
+
+    openDesctiptionModal(){
+      this.descriptionModalActive = true
+    },
+    goToMyOrderInMenu(){
+      this.$store.commit('cafe/changeActiveCategory', 0)
+         this.$store.commit('changeNavigation', 'currentCafe')
+
+    },
     showPreInvoice() {
       // first generate it
       this.ordersToPay = []
@@ -294,9 +299,8 @@ export default {
           }
         }
       }
-        this.preInvoiceActive = true
+      this.preInvoiceActive = true
       setTimeout(() => {
-        
         let preInvoiceAnime = lottie.loadAnimation({
           container: document.getElementById('pre-invoice-animation'), // the dom element that will contain the animation
           renderer: 'svg',
@@ -311,17 +315,14 @@ export default {
       this.$store.dispatch('table/submitPayment', this.ordersToPayforServer)
       // this.$router.push('/paymentResult')
     },
-    showOptionsModal() {
-      this.isTableOptionsModalActive = true
-    },
+
     changeTableOptions() {
+      this.fullPayment = !this.fullPayment
       if (this.fullPayment) this.$store.commit('table/payWholeBill')
       else this.$store.commit('table/setDefaultPayment')
-      this.isTableOptionsModalActive = false
     }
   },
-  mounted() {
-  },
+  mounted() {},
   watch: {
     // 'table.persons': {
     //   immediate: true,
@@ -350,7 +351,7 @@ export default {
         //   }
         //   paymentDOMCheck()
       }
-    },
+    }
 
     // totalWishToPayOrder: {
     //   immediate: true,
@@ -388,6 +389,4 @@ export default {
     img
       width: 40%
       margin: auto
-
-
 </style>
