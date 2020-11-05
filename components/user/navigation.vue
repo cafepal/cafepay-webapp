@@ -66,8 +66,8 @@
   opacity: 1!important
 
 .navigation-container
+  transition: 0.5s
   z-index: 105
-  // border-radius: 1rem 1rem 0 0
   border-radius: 25px 25px 0 0
   position: fixed
   display: flex

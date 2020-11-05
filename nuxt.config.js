@@ -73,6 +73,7 @@ export default {
     '~/plugins/gtm',
     '~/plugins/onReload',
     '~/plugins/axios',
+    '~/plugins/bus',
     '~/plugins/mixin',
     '~/plugins/vue-currency',
     '~/plugins/vue-leaflet',

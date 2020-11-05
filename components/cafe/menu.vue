@@ -20,7 +20,7 @@
 
     <div class="category-list">
         
-      <div :class="{'search-expanded': searchExpandActive,'shadow-md': searchExpandActive}" 
+      <div v-if="menu.length > 0" :class="{'search-expanded': searchExpandActive,'shadow-md': searchExpandActive}" 
       class="radio-button product-search-in-menu shadow-sm">
         <input ref="searchInput" id="search-input" type="text">
         <img @click="expandSearchBox" src="@/assets/img/shape/icons/search-bold-p.png" alt="">
@@ -171,6 +171,11 @@ export default {
       this.searchExpandActive = !this.searchExpandActive
         if (this.searchExpandActive) {
           this.$emit('shrink', true)
+          this.$bus.$emit('shrink', true)
+          $('#selected-products-preview').addClass('submit-orders-shrink')
+
+    // Event Listen
+    this.$bus.$on('test-event', () => {})
       setTimeout(() => {
           $('.product-search-in-menu input').show()
           this.$refs.searchInput.focus()
@@ -179,6 +184,8 @@ export default {
           }, 500);
         }
         else {
+          $('#selected-products-preview').removeClass('submit-orders-shrink')
+          this.$bus.$emit('shrink', false)
           this.$emit('shrink', false)
           $('.category-item-wrapper').show()
           $('.product-search-in-menu input').hide()
