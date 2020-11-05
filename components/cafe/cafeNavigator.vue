@@ -15,7 +15,7 @@
           </b-tab-item>
 
           <b-tab-item class="menu-tab" label="منو" >
-            <cp-menu :menu="menu" :active="(ActiveTab == 3) ? true : false" /> 
+            <cp-menu v-on="$listeners"  :menu="menu" :active="(ActiveTab == 3) ? true : false" /> 
           </b-tab-item>
 
       </b-tabs>
@@ -43,6 +43,7 @@
       }
     },
     methods: {
+
       // getMenu(){
       //   this.$axios.get('api/v1/cafe/' + this.cafeId + '/category-product-menu/active/',
       //   { params: {}, headers: { 'Authorization': 'Token ' + '4a195a23fd29c57d4200d7eebc51644278a68eef' } })

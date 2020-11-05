@@ -1,14 +1,16 @@
 <template>
   <div dir="rtl">
-
     <div v-if="productPageActive" class="product-component">
       <product />
     </div>
 
     <div v-else class="">
-      <b-modal class="simple-action-modal" :active.sync="isCancelTableModalActive" has-modal-card >
+      <b-modal
+        class="simple-action-modal"
+        :active.sync="isCancelTableModalActive"
+        has-modal-card
+      >
         <div class="modal-card" style="width: auto">
-
           <section class="modal-dialog">
             <p>آیا میخواهید به صفحه اسکن بازگردید؟</p>
           </section>
@@ -16,17 +18,29 @@
           <section class="modal-caption"></section>
 
           <section class="modal-action">
-            <button class="button ma-child is-light" type="button" @click="closeModal(false)">خیر</button>
-            <b-button class="ma-child cp-btn-primary" @click="closeModal(true)">بازگشت به صفحه اسکن</b-button>
-          </section> 
-       
+            <button
+              class="button ma-child is-light"
+              type="button"
+              @click="closeModal(false)"
+            >
+              خیر
+            </button>
+            <b-button class="ma-child cp-btn-primary" @click="closeModal(true)"
+              >بازگشت به صفحه اسکن</b-button
+            >
+          </section>
         </div>
       </b-modal>
 
       <div class="cafe-header cp-header cp-tb-padding cp-side-padding">
         <div class="info">
-          <img :src="(cafe.avatar == null) ? cafeDefaultImage : baseUrl + cafe.avatar " alt />
-          <p class="cafe-name cp-tb-padding cp-side-padding">{{cafe.name}}</p>
+          <img
+            :src="
+              cafe.avatar == null ? cafeDefaultImage : baseUrl + cafe.avatar
+            "
+            alt
+          />
+          <p class="cafe-name cp-tb-padding cp-side-padding">{{ cafe.name }}</p>
           <!-- <b-rate
             class="cafe-rate cp-tb-padding cp-side-padding"
             v-model="cafe.rate"
@@ -35,15 +49,27 @@
             :disabled="true"
           ></b-rate> -->
         </div>
-        <div @click="isCancelTableModalActive = true" class="go-back cp-tb-padding">
+        <div
+          @click="isCancelTableModalActive = true"
+          class="go-back cp-tb-padding"
+        >
           <!-- بازگشت به اسکن -->
-          <b-icon class="close-icon" icon="qrcode-scan" size="is-medium" type="is-light"></b-icon>
+          <b-icon
+            class="close-icon"
+            icon="qrcode-scan"
+            size="is-medium"
+            type="is-light"
+          ></b-icon>
         </div>
       </div>
 
-      <cafe-navigator :cafeId="2" class="cp-full-width" @changeTabTrigger="changeTab" />
+      <cafe-navigator
+        @shrink="shrinkHeader"
+        :cafeId="2"
+        class="cp-full-width"
+        @changeTabTrigger="changeTab"
+      />
     </div>
-    
   </div>
 </template>
 
@@ -76,13 +102,20 @@ export default {
         this.$store.commit('cafe/clear')
         this.$store.commit('table/clearData')
       }
+    },
+    shrinkHeader(flag) {
+      if (flag) {
+        $('.cafe-header').addClass('cafe-header-shrink')
+      } else {
+        $('.cafe-header').removeClass('cafe-header-shrink')
+      }
     }
   },
   computed: {
     cafe() {
       return this.$store.state.cafe
     },
-    productPageActive(){
+    productPageActive() {
       return this.$store.state.cafe.productPageActive
     }
   },
@@ -93,6 +126,4 @@ export default {
 </script>
 
 <style scoped lang="sass">
-
-
 </style>

@@ -19,6 +19,13 @@
     </div>
 
     <div class="category-list">
+        
+      <div :class="{'search-expanded': searchExpandActive,'shadow-md': searchExpandActive}" 
+      class="radio-button product-search-in-menu shadow-sm">
+        <input ref="searchInput" id="search-input" type="text">
+        <img @click="expandSearchBox" src="@/assets/img/shape/icons/search-bold-p.png" alt="">
+      </div>
+
       <div
         class="category-item-wrapper"
         v-for="(cat, index) in menu"
@@ -30,7 +37,7 @@
           :class="{
             'active-category': index == activeCategory,
             'current-order-category': index == 0,
-            'shadow-lg': index == 0
+            'shadow-none': index == 0
           }"
           @click="changeActiveCategory(index)"
         >
@@ -113,6 +120,7 @@ export default {
       count: 0,
       totalPrice: 0,
       orderList: [],
+      searchExpandActive: false,
       productDefaultImage,
       slideTransition: 'slide-category-next',
           myOptions: {
@@ -157,6 +165,25 @@ export default {
         'table/productsPayloadSeperator',
         this.productChangeArray
       )
+    },
+
+    expandSearchBox(){
+      this.searchExpandActive = !this.searchExpandActive
+        if (this.searchExpandActive) {
+          this.$emit('shrink', true)
+      setTimeout(() => {
+          $('.product-search-in-menu input').show()
+          this.$refs.searchInput.focus()
+          $('.category-item-wrapper').hide()
+          // document.getElementById('search-input').style.display = block
+          }, 500);
+        }
+        else {
+          this.$emit('shrink', false)
+          $('.category-item-wrapper').show()
+          $('.product-search-in-menu input').hide()
+          }
+
     },
 
     changeActiveCategory(index) {
