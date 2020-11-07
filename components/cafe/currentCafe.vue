@@ -66,7 +66,7 @@
       <cafe-navigator
         @shrink="shrinkHeader"
         :cafeId="2"
-        class="cp-full-width"
+        class="cp-full-width navigatior-container"
         @changeTabTrigger="changeTab"
       />
     </div>
@@ -106,8 +106,11 @@ export default {
     shrinkHeader(flag) {
       if (flag) {
         $('.cafe-header').addClass('cafe-header-shrink')
+        $('.navigatior-container').addClass('navigatior-container-shrink')
+        
       } else {
         $('.cafe-header').removeClass('cafe-header-shrink')
+        $('.navigatior-container').removeClass('navigatior-container-shrink')
       }
     }
   },

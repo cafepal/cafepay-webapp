@@ -9,8 +9,8 @@
 
       <img v-show="currentMainPage == 'currentCafe' && tableToken" src='@/assets/img/shape/icons/menu-color-5.png' alt="">
       <img  v-show="currentMainPage != 'currentCafe' && tableToken" src='@/assets/img/shape/icons/menu.png' alt="">
-      <p v-show="!tableToken">اسکن</p>
-      <p v-show="tableToken">منو</p>
+      <!-- <p v-show="!tableToken">اسکن</p>
+      <p v-show="tableToken">منو</p> -->
     </div>
 
     <!-- <div @click="triggerChangeTab('search')" class="nav-tab center-align" :class="{'is-active': currentMainPage == 'search'}">
@@ -21,14 +21,14 @@
     <div @click="triggerChangeTab('cp-table')" class="nav-tab chair center-align" :class="{'is-active': currentMainPage == 'cp-table'}">
       <img v-show="currentMainPage == 'cp-table'" src='@/assets/img/shape/icons/chair-color.png' alt="">
       <img v-show="currentMainPage != 'cp-table'" src='@/assets/img/shape/icons/chair.png' alt="">
-      <p>میز</p>
+      <!-- <p>میز</p> -->
     </div>
 
     <div @click="triggerChangeTab('profile')" class="nav-tab profile center-align" :class="{'is-active': currentMainPage == 'profile'}">
       <img v-show="currentMainPage == 'profile'" src='@/assets/img/shape/icons/user-color.svg' alt="">
       <img v-show="currentMainPage != 'profile'" src='@/assets/img/shape/icons/user.png' alt="">
       <!-- <span class="notif-num has-background-danger">1</span> -->
-      <p>پروفایل</p>
+      <!-- <p>پروفایل</p> -->
     </div>
 
   </div>
@@ -75,7 +75,7 @@
   left: 0
   right: 0
   background-color: white
-  height: 75px
+  height: 65px
   box-shadow: 0px 0px 3px rgba(0,0 ,0 ,0.05)
 
   .nav-tab.profile

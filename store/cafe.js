@@ -21,9 +21,14 @@ export const state = () => ({
 
 export const getters = {
   productsFlatten: state => {
-    let products = state.categories.map(c => c.products)
-    return [].concat.apply([], products)
+    let productsTemp = state.categories.map(c => c.products)
+    let products = [].concat.apply([], productsTemp)
+    // remove MyOrder Category and prevent Duplication
+    products.shift()
+    return products
   },
+
+
 
   productById: (state, getters) => (id) => {
     return getters.productsFlatten.find(p => p.pk == id)
@@ -47,7 +52,19 @@ export const mutations = {
     state.categories = []
   },
   changeCount(state, setting) {
-    state.categories[setting.categoryIndex].products[setting.productIndex].count += setting.count
+    // if its not from filtered category indexes are legit so we need no find
+    if (!setting.filtered) state.categories[setting.categoryIndex].products[setting.productIndex].count += setting.count
+    else {
+      // we have product id and we need to find it in out main menu and update it
+     for (const category of state.categories) {
+         for (const product of category.products) {
+           if (setting.id == product.pk){
+              product.count = setting.count
+              break;
+           }
+         }
+      }
+    }
   },
 
   setMenu(state, menu) {
@@ -78,6 +95,7 @@ export const mutations = {
     state.activeCategory = index
   },
 
+
   bindProductCount(state, user) {
     let firstCategory = true
 
@@ -95,7 +113,7 @@ export const mutations = {
               product.reduceLimit = Math.ceil(matchedOrder.payment_info.payed_amount / matchedOrder.unit_amount)
               product.count = matchedOrder.count
 
-              // check if product exist or not
+              // check if product exist in my order category (firstCateogry) or not
               let matchedOrder_currentOrderCat = state.categories[0].products.find(p => p.pk == matchedOrder.product)
               if (matchedOrder_currentOrderCat) {
                 matchedOrder_currentOrderCat.reduceLimit = Math.ceil(matchedOrder.payment_info.payed_amount / matchedOrder.unit_amount)
