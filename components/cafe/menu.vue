@@ -78,7 +78,7 @@
 
     <div v-if="searchExpandActive" class="search-result">
       <p>
-        محصولات: <span class="font-18 font-norm">{{ searchResultCount }}</span>
+        محصولات: <span class="font-norm">{{ searchResultCount }}</span>
       </p>
       <img src="@/assets/img/shape/icons/searching.png" alt="" />
     </div>
