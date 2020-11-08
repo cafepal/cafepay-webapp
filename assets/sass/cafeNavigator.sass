@@ -28,7 +28,7 @@
   // margin: $margin -$margin
 
 .cafe-header-shrink
-  transition: 0.5s
+  transition: $shrinkTransitionTime
   height: 0px!important
   padding: 0!important
   margin-top: 40px
@@ -40,13 +40,13 @@
   .cafe-navigator
     // height: 0
     bottom: 80px!important
-    transition: 0.5s
+    transition: $shrinkTransitionTime
 
 .cafe-header
-  transition: 0.5s
+  transition: $shrinkTransitionTime
   display: flex
   .info
-    transition: 0.25
+    transition: $shrinkTransitionTime / 2
     flex: 1
     img
       width: 75px

@@ -21,11 +21,13 @@ export const state = () => ({
 
 export const getters = {
   productsFlatten: state => {
-    let productsTemp = state.categories.map(c => c.products)
-    let products = [].concat.apply([], productsTemp)
     // remove MyOrder Category and prevent Duplication
-    products.shift()
-    return products
+    // JSON trick for not touching the source array
+    let pureCategories = JSON.parse((JSON.stringify(state.categories)))
+    pureCategories.shift()
+    let products = pureCategories.map(c => c.products)
+    return [].concat.apply([], products)
+    
   },
 
 
@@ -59,7 +61,7 @@ export const mutations = {
      for (const category of state.categories) {
          for (const product of category.products) {
            if (setting.id == product.pk){
-              product.count = setting.count
+              product.count += setting.count
               break;
            }
          }
@@ -68,6 +70,8 @@ export const mutations = {
   },
 
   setMenu(state, menu) {
+    // clear categories in-case user re-enter 
+    state.categories = []
     // push current basket of orders first for editing current orders
     state.categories.push({
       name: 'سفارشات فعلی شما',
@@ -175,6 +179,7 @@ export const actions = {
       })
       // console.log('cafe menu', data);
       context.commit('setMenu', data)
+      context.commit('changeActiveCategory', 1)
       // after retrieving the menu we need to establish a connection with socket to retrieve table data
       // why after menu data ? because we need menu data for build table data
       // if sina give me the name of product with table data then we don't need this sequence anymore

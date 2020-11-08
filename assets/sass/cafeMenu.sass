@@ -7,15 +7,15 @@
   top: 0
   z-index: 100
   background-color: #f0f0f0
-  padding-top: $padding
-  padding-bottom: $padding
+  padding-top: 1rem
+  padding-bottom: 0.25rem
 
   .search-wrapper
     padding-left: $padding / 2
 
   &__search
     min-width: 55px!important
-    transition: 0.5s
+    transition: $shrinkTransitionTime
     display: inline-block
     position: relative
     height: 40px
@@ -31,25 +31,29 @@
 
     img#search-close
       background-color: $lightGrey
-      height: 24px!important
-      width: 24px!important
-      padding: 4px
+      height: 28px!important
+      width: 28px!important
+      padding: 6px
+      left: 10px
       border-radius: 25px
-      top: 8px
+      top: 10px
+      opacity: 0
+      transition: $shrinkTransitionTime / 2
 
     input
       position: absolute
       display: none
       right: 15px
       width: calc(100% - 70px)
-      bottom: 0
-      top: 0
+      bottom: 3px
+      top: 3px
+      font-size: 18px!important
       border: none
       outline: none
 
   &__list
     &--hide
-      transition: 0.5s
+      transition: $shrinkTransitionTime
       width: 0!important
       // transform: translateX(-100%)
     overflow-y: hidden
@@ -95,7 +99,8 @@
   align-items: center
   text-align: center
   padding: $padding
-  margin-bottom: $margin
+  margin-top: $margin
+  margin-bottom: 2*$margin
   img, p
     display: inline-block
   img
@@ -107,11 +112,18 @@
 
 
 .search-expanded
-  transition: 0.5s
+  transition: 1s
   width: 100%
+  height: 50px
+  padding-left: 0!important
   .category-navigation__search
-    transition: 0.5s
+    transition: $shrinkTransitionTime
+    height: 50px
     width: 100%
+    img#search-close
+      // transition: $shrinkTransitionTime
+      opacity: 1
+
 
 
 // .slide-category-next-enter-active,
@@ -257,11 +269,11 @@
 //   opacity: 0
 
 .submit-orders-shrink
-  transition: 0.5s!important
-  transform: translateY(120px)!important
+  transition: $shrinkTransitionTime!important
+  transform: translateY(110px)!important
 
 .navigation-in-home-shrink
-  transition: 0.5s
+  transition: $shrinkTransitionTime
   bottom: -75px!important
 
 @media screen and (max-width: 370px)

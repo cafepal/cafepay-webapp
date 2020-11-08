@@ -54,9 +54,12 @@
 </template>
 
 <script>
+import productDefaultImage from '@/assets/img/product-default.png'
 export default {
   data() {
-    return {}
+    return {
+      productDefaultImage,
+    }
   },
   props: {
     menu: {
@@ -92,7 +95,8 @@ export default {
       else {
         this.$store.commit('cafe/changeCount', {
           filtered: this.filtered,
-          id: product.pk
+          id: product.pk,
+          count
         })
         this.$emit('updateSearch', {index, count})
       }
