@@ -1,7 +1,14 @@
 <template>
   <div class="navigation-container">
+
+
+        <div @click="triggerChangeTab('feed')" class="nav-tab home-icon center-align" :class="{'is-active': currentMainPage == 'feed'}">
+      <img v-show="currentMainPage == 'feed'" src='@/assets/img/shape/icons/home-5.png' alt="">
+      <img v-show="currentMainPage != 'feed'" src='@/assets/img/shape/icons/home.png' alt="">
+      <!-- <p>میز</p> -->
+    </div>
    
-    <div @click="triggerChangeTab((hasActiveTable) ? 'currentCafe' : 'scan')" class="nav-tab center-align" 
+    <div @click="triggerChangeTab((hasActiveTable) ? 'currentCafe' : 'scan')" class="nav-tab qr-scan center-align" 
     :class="{'is-active': currentMainPage == 'scan' || currentMainPage == 'currentCafe'}">
 
       <img v-show="currentMainPage == 'scan' && !tableToken" src='@/assets/img/shape/icons/qr-code-color.png' alt="">
@@ -19,8 +26,8 @@
     </div> -->
 
     <div @click="triggerChangeTab('cp-table')" class="nav-tab chair center-align" :class="{'is-active': currentMainPage == 'cp-table'}">
-      <img v-show="currentMainPage == 'cp-table'" src='@/assets/img/shape/icons/chair-color.png' alt="">
-      <img v-show="currentMainPage != 'cp-table'" src='@/assets/img/shape/icons/chair.png' alt="">
+      <img v-show="currentMainPage == 'cp-table'" src='@/assets/img/shape/icons/table-color-3.png' alt="">
+      <img v-show="currentMainPage != 'cp-table'" src='@/assets/img/shape/icons/table-1.png' alt="">
       <!-- <p>میز</p> -->
     </div>
 
@@ -103,17 +110,31 @@
       font-weight: 500!important
       color: $primary
 
+  .home-icon
+    img
+      width: 34px!important
+      height: 34px!important
+
+  .qr-scan
+    img
+      width: 32px!important
+      position: relative
+      top: 1px
   .chair
     img
-      width: 45px!important
-      position: relative
-      bottom: 6px
+      width: 35px!important
+      height: 35px!important
+      // width: 40px !important
+      // width: 45px!important
+      // height: 52px
+      // position: relative
+      // bottom: 8px
     p
       bottom: 19px!important
 
   .profile
     img
-      width: 28px!important
+      // width: 28px!important
       position: relative
       top: 2px
     p
