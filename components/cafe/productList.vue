@@ -7,7 +7,7 @@
           :key="prod.pk"
           class="normal-radius shadow-md has-background-white cp-tb-margin cp-side-margin-half product-item"
         >
-          <div v-if="prod.available" class="add-or-remove">
+          <div v-if="prod.available && !menuOnly" class="add-or-remove">
             <span class="product-add" @click="countChange(index, 1, prod)">
               <div class="aor-shape">+</div>
             </span>
@@ -17,7 +17,7 @@
             </span>
           </div>
 
-          <div v-else class="out-of-order">
+          <div v-if="!prod.available" class="out-of-order">
             <p>تمام شد</p>
           </div>
 

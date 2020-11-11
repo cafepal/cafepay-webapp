@@ -10,14 +10,13 @@ export const state = () => ({
   avatar: null,
   cafepay_fee: 0,
   productChangeArray: [],
-  info: {},
-  posts: {},
   categories: [],
   currentProduct: {},
   productsFork: [],
   productPageActive: false,
   flowType: null,
-  totalCount: 0
+  totalCount: 0,
+  menuOnly: false
 })
 
 export const getters = {
@@ -39,19 +38,17 @@ export const getters = {
 }
 
 export const mutations = {
-  setBasic(state, cafe) {
-    state.rate = (cafe.rate) ? cafe.rate : 4
-    state.pk = cafe.pk
-    state.name = cafe.name
-    state.avatar = cafe.avatar
-    state.cafepay_fee = cafe.cafepay_fee
+  setBasic(state, data) {
+    state.rate = (data.cafe.rate) ? data.cafe.rate : 4
+    state.pk = data.cafe.pk
+    state.name = data.cafe.name
+    state.menuOnly = data.menu_only
+    state.avatar = data.cafe.avatar
+    state.cafepay_fee = data.cafe.cafepay_fee
 
 
   },
   clear(state) {
-    state.summery = {}
-    state.info = {}
-    state.posts = {}
     state.categories = []
   },
   changeCount(state, setting) {

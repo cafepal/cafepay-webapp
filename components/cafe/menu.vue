@@ -6,12 +6,12 @@
       :options="myOptions"
       :callbacks="myCallbacks"
     ></v-tour>
-    <div
+    <div v-if="!menuOnly"
       id="selected-products-preview"
       class="selected-products-preview-is-shown"
     >
     <span>{{ordersTotalCount}}</span>
-      <b-button
+      <b-button 
         @click="productsPayloadSeperator"
         :loading="globalLoading"
         class="button bcp-btn cp-btn-submit-order shadow-lg-bb"
@@ -313,7 +313,9 @@ export default {
       return this.$store.state.cafe.totalCount
     }
   },
-  mounted() {},
+  mounted() {
+    alert(this.menuOnly)
+  },
   watch: {
     initialTour: {
       immediate: true,

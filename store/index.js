@@ -122,7 +122,7 @@ export const actions = {
         .then(res => {
           
           // sets pk, avatar, name and table id
-          commit('cafe/setBasic', res.data.cafe)
+          commit('cafe/setBasic', res.data)
           // execute the action for getting menu, detailed info, comments and posts
           dispatch('cafe/retrieveMenu')
 
