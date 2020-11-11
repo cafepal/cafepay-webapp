@@ -20,7 +20,7 @@ export const Table = class Table {
 
   }
 
-  productsByPerson(arr, products, currentUserId) {
+  productsByPerson(arr, currentUserId) {
     let personRawProduct_noProperty = [...arr.reduce((acc, obj) =>
       acc.set(obj.user_profile.pk, (acc.get(obj.user_profile.pk) || []).concat(obj)), new Map).values()];
 
@@ -35,7 +35,6 @@ export const Table = class Table {
       
       
       orders.forEach(order => {
-        let findProduct = products.find(x => x.pk == order.product)
 
         // user info is in each order so remove it from them and add to parent (person)
         user_name = (order.is_staff) ? 'صندوق دار' : order.user_profile.full_name
@@ -48,7 +47,7 @@ export const Table = class Table {
         let prodObj = {
           ...order,
           wish_to_pay,
-          name: findProduct.name,
+          name: order.product_data.name,
         }
 
         // generate id for identicon base on full_name + phone number

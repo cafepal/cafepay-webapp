@@ -16,7 +16,8 @@ export const state = () => ({
   currentProduct: {},
   productsFork: [],
   productPageActive: false,
-  flowType: null
+  flowType: null,
+  totalCount: 0
 })
 
 export const getters = {
@@ -54,6 +55,7 @@ export const mutations = {
     state.categories = []
   },
   changeCount(state, setting) {
+    state.totalCount += setting.count
     // if its not from filtered category indexes are legit so we need no find
     if (!setting.filtered) state.categories[setting.categoryIndex].products[setting.productIndex].count += setting.count
     else {
@@ -104,6 +106,7 @@ export const mutations = {
     let firstCategory = true
 
     for (const category of state.categories) {
+      state.totalCount = 0
       // if user == false that means we dont have any order anymore so clear products of user current category and reset counts on other categories
       if (!user && firstCategory) category.products = []
       // we dont want to check user current orders category so we use this flag to check if that's it or not!
@@ -116,6 +119,8 @@ export const mutations = {
               // check if order has payments for reduce order count
               product.reduceLimit = Math.ceil(matchedOrder.payment_info.payed_amount / matchedOrder.unit_amount)
               product.count = matchedOrder.count
+              // compute total Count here (initial)
+              state.totalCount += matchedOrder.count
 
               // check if product exist in my order category (firstCateogry) or not
               let matchedOrder_currentOrderCat = state.categories[0].products.find(p => p.pk == matchedOrder.product)
