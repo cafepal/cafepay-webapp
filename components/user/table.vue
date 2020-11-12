@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div v-if="hasActiveTable" class="has-active-table">
+    <div v-if="hasActiveTable && menuOnly" class="no-active-table">
+      <div>
+        <img src="@/assets/img/ordering.png" alt="">
+        <p class="no-ordering-text">سفارش ‌گیری فعال نیست</p>
+      </div>
+    </div>
+    <div v-if="hasActiveTable && !menuOnly" class="has-active-table">
       <b-modal
         class="table-options-modal simple-action-modal"
         :active.sync="descriptionModalActive"
@@ -193,7 +199,7 @@
       </div>
     </div>
 
-    <div v-else class="no-active-table">
+    <div v-if="!hasActiveTable" class="no-active-table">
       <div>
         <img src="@/assets/img/shape/icons/burger.svg" alt />
         <p class="cp-side-margin-2x">
@@ -375,18 +381,5 @@ export default {
 </script>
 
 <style scoped lang="sass">
-.no-active-table
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 65px
-  display: flex
-  justify-content: center
-  align-items: center
-  div
-    text-align: center
-    img
-      width: 40%
-      margin: auto
+
 </style>
