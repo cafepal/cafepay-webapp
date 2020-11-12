@@ -88,6 +88,9 @@ Vue.mixin({
     tableToken() {
       return this.$store.state.table.token
     },
+    menuOnly(){
+      return this.$store.state.cafe.menuOnly
+    },
     globalLoading() {
       return this.$store.state.globalLoading
     },

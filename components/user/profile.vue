@@ -108,7 +108,7 @@
       <div class="version-info">
         <img src="@/assets/img/shape//logo-transparent.png" alt="">
         <!-- <p>نسخه 0.9.1</p> -->
-        <p>version 0.11.1</p>
+        <p>version 0.12.1</p>
       </div>
     </div>
   </div>

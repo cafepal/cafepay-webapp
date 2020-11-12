@@ -283,8 +283,10 @@ export default {
     })
     qrAnimeObj.play()
 
-    if (this.$route.fullPath.split('?token=')[1])
+    if (this.$route.fullPath.split('?token=')[1]) {
       this.tableCode = this.$route.fullPath.split('?token=')[1]
+      this.dispatchSendCode()
+    }
 
     // if navigator is supported
     if (navigator.permissions) {

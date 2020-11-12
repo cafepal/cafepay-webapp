@@ -6,18 +6,18 @@
       :options="myOptions"
       :callbacks="myCallbacks"
     ></v-tour>
-    <div
+    <div v-if="!menuOnly"
       id="selected-products-preview"
       class="selected-products-preview-is-shown"
     >
-      <b-button
-        :disabled="!showSubmitBtn"
+    <span>{{ordersTotalCount}}</span>
+      <b-button 
         @click="productsPayloadSeperator"
         :loading="globalLoading"
         class="button bcp-btn cp-btn-submit-order shadow-lg-bb"
         size="is-medium"
         type="is-info"
-        >ثبت سفارشات</b-button
+        >تایید سفارشات</b-button
       >
     </div>
 
@@ -166,6 +166,12 @@ export default {
   },
   methods: {
     productsPayloadSeperator() {
+      // if there is no change just switch to table view
+      if (this.productChangeArray.length == 0) {
+        this.$store.commit('changeNavigation', 'cp-table')
+      }
+      // if otherwise we need to dispatch changes
+      else {
       let PayloadGeneral = this.productChangeArray.map(x => {
         return {
           product: x.product,
@@ -201,6 +207,7 @@ export default {
           if (this.searchExpandActive) this.toggleSearchBox()
         })
         .catch(res => {})
+      }
     },
     updateSearch(data) {
       let newCount =
@@ -301,9 +308,14 @@ export default {
     },
     showSubmitBtn() {
       return this.$store.state.cafe.productChangeArray.length
+    },
+    ordersTotalCount() {
+      return this.$store.state.cafe.totalCount
     }
   },
-  mounted() {},
+  mounted() {
+    alert(this.menuOnly)
+  },
   watch: {
     initialTour: {
       immediate: true,

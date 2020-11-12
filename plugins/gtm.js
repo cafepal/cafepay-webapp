@@ -23,7 +23,6 @@ export default ({
     // ignoredViews: ['homepage'], // Don't trigger events for specified router names (case insensitive) (optional)
     // trackOnNextTick: false, // Whether or not call trackView in Vue.nextTick
   });
-  console.log('route for gtm', app.router)
 }
 
 

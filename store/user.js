@@ -9,8 +9,9 @@ import {
 } from '../middleware/models/table'
 export const state = () => ({
   history: {
+    nuxt: null,
     count: 0,
-    data: [{}]
+    data: []
   },
   user: {
 
@@ -33,8 +34,11 @@ export const mutations = {
           state.history.next = payload.res.next
           for (let i = 0; i < payload.res.results.length; i++) {
             let rawOrders = payload.res.results[i]
-            console.log('products here', payload.products);
-            let table = new Table(rawOrders, payload.products, this.state.user.id)
+            let table = new Table(rawOrders, null, this.state.user.id)
+            table.payment = rawOrders.payment_info.total_amount
+            table.cafe = rawOrders.cafe.name
+            table.date = rawOrders.datetime
+            table.id = rawOrders.pk
             state.history.data.push(table)
 
           }
@@ -45,15 +49,14 @@ export const mutations = {
 
 export const actions = {
 
-  getOrderHistory(context) {
+  getOrderHistory(context , next) {
     return new Promise((resolve, reject) => {
-
-      this.$api.$get('/api/v1/user-profile/orders/history/', {
+      let url;
+      url = (next) ? context.state.history.next.split('http://xyz.cafepay.app/')[1] : '/api/v1/user-profile/orders/history/'
+      this.$api.$get(url, {
           params: {}
         }).then(res => {
-          let products = this.state.cafe.categories.map(c => c.products)
-          products = [].concat.apply([], products)
-          context.commit('setHistory', {products, res})
+          context.commit('setHistory', {res , next})
           // context.commit('setHistoryOrder', res)
           resolve(res)
         })

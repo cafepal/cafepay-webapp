@@ -92,7 +92,6 @@ export default {
       this.dynamicComponent = componentName
     },
     changeViewTrigger(command) {
-      alert(command)
     },
     closeModal(changeCommand) {
       this.isCancelTableModalActive = false
