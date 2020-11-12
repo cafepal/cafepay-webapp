@@ -2,11 +2,10 @@
   <div class="navigation-container">
 
       
-      <nuxt-link to="/user/feed" class="nav-tab home-icon center-align" :class="{'is-active': $route.name == 'user-feed'}">
+      <!-- <nuxt-link to="/user/feed" class="nav-tab home-icon center-align" :class="{'is-active': $route.name == 'user-feed'}">
       <img v-show="$route.name == 'user-feed'" src='@/assets/img/shape/icons/home-5.png' alt="">
       <img v-show="$route.name != 'user-feed'" src='@/assets/img/shape/icons/home.png' alt="">
-      <!-- <p>میز</p> -->
-    </nuxt-link>
+    </nuxt-link> -->
    
     <div @click="triggerChangeTab((hasActiveTable) ? 'currentCafe' : 'scan')" class="nav-tab qr-scan center-align" 
     :class="{'is-active': currentMainPage == 'scan' || currentMainPage == 'currentCafe'}">
@@ -49,7 +48,6 @@
     },
     methods: {
       triggerChangeTab(componentName) {
-        console.log('route', this.$route);
         this.tabName = componentName
         this.$store.commit('changeNavigation', componentName)
         if (this.$route.name == "user-feed") this.$router.push('/user/home')
