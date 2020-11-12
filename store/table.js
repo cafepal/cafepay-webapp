@@ -63,7 +63,7 @@ export const mutations = {
     let products = this.state.cafe.categories.map(c => c.products)
     products = [].concat.apply([], products)
     // we pass the user id for slider to be full for user
-    let table = new Table(rawData, products, this.state.user.user.id)
+    let table = new Table(rawData, this.state.user.user.id)
     state.persons = table.persons
     state.payment = rawData.payment_info
 

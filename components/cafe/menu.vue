@@ -314,7 +314,7 @@ export default {
     }
   },
   mounted() {
-    alert(this.menuOnly)
+
   },
   watch: {
     initialTour: {
