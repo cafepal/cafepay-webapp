@@ -5,10 +5,10 @@ import Avatars from '@dicebear/avatars';
 import sprites from '@dicebear/avatars-bottts-sprites';
 
 export const Table = class Table {
-  constructor(rawData = {}, products = {}, currentUserId = {}) {
+  constructor(rawData = {}, currentUserId = {}) {
 
 
-    let notSortedPersons = this.productsByPerson(rawData.bill_products, products, currentUserId)
+    let notSortedPersons = this.productsByPerson(rawData.bill_products, currentUserId)
     let myProfileOnTable = notSortedPersons.find(p => p.id == currentUserId)
     if (myProfileOnTable && notSortedPersons.length > 1) {
       notSortedPersons = notSortedPersons.filter(p => p.id != currentUserId)
