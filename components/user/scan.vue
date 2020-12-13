@@ -162,7 +162,8 @@ export default {
     tokenProccessor(token) {
       // token proccessor called by camera or input if it is called by camera it returns string if not it's an input entery
       // by CAMERA
-      alert('token: ' + token + ' loginModalActive: ' + this.loginModalActive)
+      alert('token: ' + token + ' loginModalActive: ' + this.loginModalActive
+       + ' this.enterCodeModalActive ' + this.enterCodeModalActive + ' this.CustomLoader ' + this.CustomLoader)
       if(this.loginModalActive || this.enterCodeModalActive || this.CustomLoader) {
         return;
       }
