@@ -162,6 +162,7 @@ export default {
     tokenProccessor(token) {
       // token proccessor called by camera or input if it is called by camera it returns string if not it's an input entery
       // by CAMERA
+      alert(token);
       if (typeof token == 'string') {
         this.tableCode = token.split('?token=')[1]
       }
