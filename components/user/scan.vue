@@ -122,7 +122,7 @@ import qrIcon from '~/assets/img/shape/icons/qr-code-scan.svg'
 import lottie from 'lottie-web'
 import login from '~/components/user/login'
 import Vue from 'vue'
-// import { QrcodeStream } from 'vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 import { mapActions } from 'vuex'
 
 export default {
@@ -159,7 +159,7 @@ export default {
     },
     openCamera() {
       this.accessCameraActive = false
-      // this.qrcodeComponentLaunch = QrcodeStream
+      this.qrcodeComponentLaunch = QrcodeStream
     },
     onDecode(token) {
       // token proccessor called by camera or input if it is called by camera it returns string if not it's an input entery
@@ -305,10 +305,10 @@ export default {
           .then((permissionStatus) => {
             if (permissionStatus.state == 'prompt')
               this.accessCameraActive = true
-            else if (permissionStatus.state == 'granted') {}
-              // this.qrcodeComponentLaunch = QrcodeStream
+            else if (permissionStatus.state == 'granted')
+              this.qrcodeComponentLaunch = QrcodeStream
           })
-      } else {} // this.qrcodeComponentLaunch = QrcodeStream
+      } else this.qrcodeComponentLaunch = QrcodeStream
     }
   },
   computed: {
