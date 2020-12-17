@@ -6,6 +6,11 @@
       :options="myOptions"
       :callbacks="myCallbacks"
     ></v-tour> -->
+    <div class="time-warning"  v-if="new Date().getHours() < 18 && this.$store.state.cafe && this.$store.state.cafe.name == 'خانه هات داگ'">
+    <b-message type="is-warning" :closable="true">
+      ساعت کاری مجموعه از ساعت ۶ بعد از ظهر می باشد
+    </b-message>
+    </div>
     <div id="selected-products-preview" 
     class="selected-products-preview-is-shown"
     v-if="tokenType !== 'menu-only' && (!user.table_uuid || (user.table_uuid && !ordersPaid))">
@@ -470,9 +475,25 @@ export default {
         }
       }
     }
+  },
+  updated(){
+    let ele = document.getElementsByClassName('media-content');
+    for (let i = 0; i < ele.length; i++ ) {
+        ele[i].setAttribute("style", "text-align: right !important");
+    }
+    ele = document.getElementsByClassName('message-body');
+    for (var i = 0; i < ele.length; i++ ) {
+        ele[i].setAttribute("style", "border-width: 0 4px 0 0 !important; padding: 1.1em 1.5em");
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.time-warning {
+  text-align: right !important;
+  direction: rtl;
+  margin-top:20px;
+  margin-bottom: 0px;
+}
 </style>
