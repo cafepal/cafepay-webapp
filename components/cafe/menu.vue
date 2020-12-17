@@ -8,7 +8,7 @@
     ></v-tour> -->
     <div class="time-warning"  v-if="new Date().getHours() < 18 && this.$store.state.cafe && this.$store.state.cafe.name == 'خانه هات داگ'">
     <b-message type="is-warning" :closable="true">
-      ساعت کاری مجموعه از ساعت ۶ بعد از ظهر می باشد
+      ساعت کاری مجموعه از ساعت ۶ بعد از ظهر می‌باشد. در صورت ثبت سفارش، بعد از باز شدن مجموعه آماده خواهد شد.
     </b-message>
     </div>
     <div id="selected-products-preview" 
@@ -479,11 +479,11 @@ export default {
   updated(){
     let ele = document.getElementsByClassName('media-content');
     for (let i = 0; i < ele.length; i++ ) {
-        ele[i].setAttribute("style", "text-align: right !important");
+        ele[i].setAttribute("style", "text-align: center !important; font-size: 12px;");
     }
     ele = document.getElementsByClassName('message-body');
     for (var i = 0; i < ele.length; i++ ) {
-        ele[i].setAttribute("style", "border-width: 0 4px 0 0 !important; padding: 1.1em 1.5em");
+        ele[i].setAttribute("style", "border-width: 0 4px 0 0 !important; padding: 1em 1em");
     }
   }
 }
