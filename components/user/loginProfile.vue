@@ -20,13 +20,17 @@
               {{ $t('login_component.verification_code_will_be_sent_meesage') }}
             </p>
             <b-field class="center-align">
+              <p style="padding: 15px 10px 15px 0px; height: 47px; border-radius: 5px 0px 0px 5px;">
+                +1
+                <img width="32" src="~/assets/img/flags/ca.png" />
+              </p>
               <b-input
                 ref="phoneInputProfile"
                 dir="ltr"
                 inputmode="numeric"
-                class="cp-input cp-input-primary cp-input-grey"
+                class="cp-input cp-input-primary cp-input-grey phone-number-input"
                 message="You can have a message too"
-                :maxlength="$i18n.locale == 'fa' ? 11 : 14"
+                :maxlength="$i18n.locale == 'fa' ? 11 : 10"
                 v-model="phone_number"
                 :disabled="globalLoading"
                 :placeholder="$i18n.locale == 'fa' ? '09.........' : 'phone number'"
@@ -203,6 +207,9 @@ export default {
       let phone_numberEn = this.convertPersian(this.phone_number)
       let validation = this.$i18n.locale == 'fa' ? /^(\0|0)?9\d{9}$/g : /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/g
       if (phone_numberEn.match(validation)) {
+        if(this.$i18n.locale == 'en') {
+          phone_numberEn = '001' + phone_numberEn;
+        }
         this.$axios
           .post('api/v1/user-profile/send-code/', {
             phone_number: phone_numberEn
@@ -292,5 +299,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.phone-number-input {
+  width: 250px;
+}
+.phone-number-input input {
+  border-radius: 0px 5px 5px 0px !important;
+}
 </style>
