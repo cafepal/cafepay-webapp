@@ -62,7 +62,8 @@
           </li>
         </nuxt-link> -->
 
-        <nuxt-link :to="localePath('/user/profile/orderlist')">
+        <!-- TODO: translate order list page -->
+        <nuxt-link :to="localePath('/user/profile/orderlist')" v-if="$i18n.locale == 'fa'">
           <li class="cp-card has-background-white cp-side-padding cp-tb-padding">
             <img src="@/assets/img/shape/icons/shopping-cart.png" alt />
             {{ $t('profile_page.orders_list') }}

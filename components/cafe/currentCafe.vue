@@ -40,7 +40,7 @@
                 class="close-icon" icon="close" size="is-medium" type="is-light"></b-icon>
           <!-- TODO: set language on cookie to set locale even if user navigates back
                 https://i18n.nuxtjs.org/lang-switcher -->
-          <nuxt-link :to="switchLocalePath(this.$i18n.locale == 'en' ? 'fa' : 'en')" replace>
+          <nuxt-link v-if="$i18n.locale == 'fa'" :to="switchLocalePath(this.$i18n.locale == 'en' ? 'fa' : 'en')" replace>
             <b-icon class="translate-icon" icon="translate" size="is-medium" type="is-light"></b-icon>
           </nuxt-link>
         </div>

@@ -33,6 +33,7 @@
           @click="setCurrentImg(img.image)"
           class="short-shadow"
           v-for="img in info.shop_images"
+          v-if="!img.is_avatar"
           :key="img.pk"
           :src="img.image"
           alt
