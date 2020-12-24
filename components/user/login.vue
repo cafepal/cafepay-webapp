@@ -241,7 +241,7 @@ export default {
     checkCode() {
       this.$axios
         .post('/api/v1/user-profile/auth-token/', {
-          phone_number: this.phone_number,
+          phone_number: '001' + this.phone_number,
           code: this.user_code
         })
         .then(res => {
