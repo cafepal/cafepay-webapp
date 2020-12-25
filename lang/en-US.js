@@ -1,3 +1,11 @@
+const order_states_general = {
+  waiting: 'Waiting for kitchen confirmation',
+  preparing: 'Prepearing your order',
+  ready: 'Your order is ready!',
+  confirmed: 'Your Order has been Accepted',
+  rejected: 'Your order is rejected by the kitchen',
+}
+
 export default {
   unknown_error: 'Error occurred. Please try again later',
   network_error: 'Please check your network connection',
@@ -47,14 +55,13 @@ export default {
       details: 'Details',
       checkout: 'Checkout',
       checkout_CASH: 'Please Pay Your bill with Cash or Credit Card',
-      states: {
-        waiting: 'Waiting for kitchen confirmation',
-        preparing: 'Prepearing your order',
-        ready: 'Your order is ready!',
-        confirmed: 'Your Order has been Accepted',
-        rejected: 'Your order is rejected by the kitchen'
-      }
+      states: Object.assign({...order_states_general} , {
+        waiting: 'Waiting for kitchen confirmation'
+      })
     },
+    states: Object.assign({...order_states_general} , {
+      waiting: 'Your Order is submitted'
+    }),
     total_amount: 'Total amount',
     payed_amount: 'Paid amount',
     
