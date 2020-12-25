@@ -154,6 +154,25 @@
                 </div>
               </div>
 
+              <div
+                v-else
+                :class="{'shadow-md': paymentMethod == 'online', 'method-selected': paymentMethod == 'online'}" @click="paymentMethod = 'online'"
+                class="pre-invoice-modal__payment-method__online cp-side-padding-half cp-tb-padding normal-radius">
+                <div class="pre-invoice-modal__payment-method__online__img">
+                  <img src="@/assets/img/credit-card-payment.png" alt="">
+                </div>
+                <div class="pre-invoice-modal__payment-method__online__text">
+                  <p class="font-16">Online Payment</p>
+                  <p class="font-bold">Fake Payment Gateway</p>
+                </div>
+                <div v-if="paymentMethod == 'online'" class="pre-invoice-modal__payment-method__online__check">
+                  <b-icon
+                  icon="check"
+                  size="is-medium">
+                  </b-icon>
+                </div>
+              </div>
+
               <div v-if="tokenType != 'pre-order'" :class="{'shadow-md': paymentMethod == 'cash', 'method-selected': paymentMethod == 'cash'}" @click="paymentMethod = 'cash'"
               class="pre-invoice-modal__payment-method__cash cp-b-margin cp-side-padding-half cp-tb-padding normal-radius">
                 <div class="pre-invoice-modal__payment-method__cash__img">
@@ -324,7 +343,7 @@ export default {
       hasPreOrder: true,
       preorders: [{}],
       //TODO: get bill preferred payment method from server
-      paymentMethod: (this.$i18n.locale == 'fa') ? 'online' : 'cash'
+      paymentMethod: 'online'
     }
   },
   computed: {
