@@ -65,7 +65,7 @@ export default {
     total_amount: 'Total amount',
     payed_amount: 'Paid amount',
     
-    service_fee: 'Service Fee',
+    service_fee: 'Tax',
     sub_total_amount: 'Subtotal',
     final_total_amount: 'Total',
     checkout_cash_or_credit: 'Cash or Credit Card',
