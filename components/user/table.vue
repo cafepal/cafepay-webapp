@@ -280,7 +280,7 @@
               تومان
             </p> -->
 
-            <p
+            <!-- <p
               :class="{ 'complete-payment-p': PaymentProgress }"
               v-if="PaymentProgress == 100"
               class="font-norm total-payment"
@@ -291,7 +291,7 @@
               v-if="PaymentProgress == 100"
               class="g-text payment-completed-icon"
               icon="sticker-check"
-            ></b-icon>
+            ></b-icon> -->
           </div>
         </div>
       </div>
