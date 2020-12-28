@@ -15,7 +15,7 @@
         <p v-if="info.status != 200">{{info.description}}</p>
         <p class="font-18" v-if="info.status == 200" v-html="$t('payment_result.payment_result_success')"></p>
         <p class="font-18" v-if="info.status != 200" v-html="$t('payment_result.payment_result_error')"></p>
-        <p v-if="info.status == 200" class="">{{ $t('payment_result.payed_amount') }}: <span class="total-price">{{info.amount | currency}}
+        <p v-if="info.status == 200" class="">{{ $t('payment_result.payed_amount') }}: <span class="total-price">{{(Number(info.amount) + Number(info.amount) * 0.13) | currency}}
           <!-- <span class="toman">تومان</span> -->
         </span></p>
         <p :dir="$dir()" v-if="info.status != 200">{{ $t('payment_result.transaction_id') }}:‌</p>
