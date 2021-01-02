@@ -44,6 +44,8 @@ export const getters = {
 
 export const mutations = {
   setBasic(state, data) {
+    // close socket on replace pickup / preorder
+    if (data.type == 2 && state.tokenType == 'pre-order') Vue.prototype.$disconnect()
     state.rate = (data.cafe.rate) ? data.cafe.rate : 4
     state.pk = data.cafe.pk
     state.name = data.cafe.name
@@ -217,10 +219,6 @@ export const actions = {
   async retrieveMenu(context) {
     try {
       let data = await this.$axios.$get(`/api/v1/cafe/${context.state.pk}/category-based-menu/active/`, {
-        // params: {},
-        // headers: {
-        //   'Authorization': 'Token ' + context.rootState.token,
-        // }
       })
       // console.log('cafe menu', data);
       context.commit('setMenu', data)
