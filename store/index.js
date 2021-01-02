@@ -46,7 +46,7 @@ export const mutations = {
     if (message.source ==
       `table.${state.table.token}.join.simple.by-token.`) {
         if ( message.status_code == 200) {
-           console.log('table socket message', message.data);
+          //  console.log('table socket message', message.data);
             this.commit('table/setData', message.data)
         }
         else if (message.status_code == 404) {
@@ -143,7 +143,6 @@ export const actions = {
       else {
       return new Promise((resolve, reject) => {
         let api = (data.hasToken) ? '$api' : '$axios'
-        console.log('api type', api);
         // u need to set the table too, for api link
         this[api]
           .get('api/v1/table-token/' + data.tableToken + '/cafe-info/', {

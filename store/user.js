@@ -72,7 +72,7 @@ export const mutations = {
             state.history.data.push(table)
 
           }
-          console.log('history res', state.history)
+          // console.log('history res', state.history)
   },
   clearTable_uuid(state) {
     state.user.table_uuid = null

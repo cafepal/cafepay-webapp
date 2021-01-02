@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     goToCafe(cafe){
-      let token = (cafe.preorder_token && cafe.is_closed) ? cafe.preorder_token.token : cafe.menu_only_token.token
+      let token = (cafe.preorder_token && !cafe.is_closed) ? cafe.preorder_token.token : cafe.menu_only_token.token
         this.$store.commit('changeNavigation', 'scan')
       this.$router.push(`/user/home/?token=${token}`)
     }

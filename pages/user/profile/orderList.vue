@@ -101,7 +101,7 @@ export default {
       return this.$store.state.user.user
     },
     history() {
-      console.log('history', this.$store.state.user.history)
+      // console.log('history', this.$store.state.user.history)
       return this.$store.state.user.history
     }
   },

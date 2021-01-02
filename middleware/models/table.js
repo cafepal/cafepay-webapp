@@ -13,7 +13,7 @@ export const Table = class Table {
     if (myProfileOnTable && data.personRawProduct.length > 1) {
       data.personRawProduct = data.personRawProduct.filter(p => p.id != currentUserId)
       data.personRawProduct.unshift(myProfileOnTable)
-      console.log('persons no order', data.personRawProduct);
+      // console.log('persons no order', data.personRawProduct);
     }
     this.persons = data.personRawProduct
     this.status = data.status

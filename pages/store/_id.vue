@@ -6,7 +6,7 @@
 <script>
   export default {
     middleware({params, redirect, store}){
-      console.log('prarams', params, redirect);
+      // console.log('prarams', params, redirect);
       store.commit('cafe/changeStoreRedirect', true)
       redirect(`/user/home/?token=${params.id}`)
 

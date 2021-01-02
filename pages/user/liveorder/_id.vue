@@ -88,7 +88,7 @@ export default {
         let animationData = null
         let loop = true
         document.getElementById('animation-order-status').innerHTML = ''
-        console.log('table generated in liveorder', val);
+        // console.log('table generated in liveorder', val);
         switch (val.status) {
           case 'waiting':
             animationData = this.waiting
