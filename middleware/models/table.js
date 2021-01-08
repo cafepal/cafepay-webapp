@@ -46,7 +46,7 @@ export const Table = class Table {
         // set method
         if (order.preferred_payment_method != 0) paymentMethod = 'cash'
         // user info is in each order so remove it from them and add to parent (person)
-        user_name = (order.is_staff) ? 'صندوق دار' : order.user_profile.full_name
+        user_name = (order.is_staff) ? 'Cashier' : order.user_profile.full_name
         userId = order.user_profile.pk
 
         // if order is belong to user (not others) slider will be full
