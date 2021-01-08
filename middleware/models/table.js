@@ -9,13 +9,13 @@ export const Table = class Table {
 
 
     let data = this.productsByPerson(rawData.bill_products, currentUserId)
-    // let myProfileOnTable = data.personRawProduct.find(p => p.id == currentUserId)
-    let myProfileOnTable = data.personRawProduct
+    let myProfileOnTable = data.personRawProduct.find(p => p.id == currentUserId)
     if (myProfileOnTable && data.personRawProduct.length > 1) {
       data.personRawProduct = data.personRawProduct.filter(p => p.id != currentUserId)
       data.personRawProduct.unshift(myProfileOnTable)
       console.log('persons no order', data.personRawProduct);
     }
+    console.log(data.personRawProduct)
     this.persons = data.personRawProduct
     this.status = data.status
     this.paymentMethod = data.paymentMethod
@@ -51,8 +51,10 @@ export const Table = class Table {
         userId = order.user_profile.pk
 
         // if order is belong to user (not others) slider will be full
-        if (userId == currentUserId) wish_to_pay = order.payment_info.total_amount - order.payment_info.net_payed_amount
-        else wish_to_pay = 0
+        // if (userId == currentUserId) wish_to_pay = order.payment_info.total_amount - order.payment_info.net_payed_amount
+        // else wish_to_pay = 0
+        wish_to_pay = order.payment_info.total_amount - order.payment_info.net_payed_amount
+
         // build new object with addition of wish to pay and name of product
         let prodObj = {
           ...order,
