@@ -9,7 +9,8 @@ export const Table = class Table {
 
 
     let data = this.productsByPerson(rawData.bill_products, currentUserId)
-    let myProfileOnTable = data.personRawProduct.find(p => p.id == currentUserId)
+    // let myProfileOnTable = data.personRawProduct.find(p => p.id == currentUserId)
+    let myProfileOnTable = data.personRawProduct
     if (myProfileOnTable && data.personRawProduct.length > 1) {
       data.personRawProduct = data.personRawProduct.filter(p => p.id != currentUserId)
       data.personRawProduct.unshift(myProfileOnTable)
