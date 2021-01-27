@@ -18,6 +18,8 @@
             <h3 class="font-bold">{{ $t('login_component.enter_your_phone_number') }}</h3>
             <p class="state-explaination">
               {{ $t('login_component.verification_code_will_be_sent_meesage') }}
+              <br />
+              *Demo mode: enter any phone number you want*
             </p>
             <b-field class="center-align">
               <p style="padding: 15px 10px 15px 0px; height: 47px; border-radius: 5px 0px 0px 5px;">
@@ -207,7 +209,7 @@ export default {
       let phone_numberEn = this.convertPersian(this.phone_number)
       if (phone_numberEn.match(validation)) {
         if(this.$i18n.locale == 'en') {
-          phone_numberEn = '001' + phone_numberEn;
+          phone_numberEn = '0' + phone_numberEn;
         }
         this.$axios
           .post('api/v1/user-profile/send-code/', {
@@ -241,7 +243,7 @@ export default {
     checkCode() {
       this.$axios
         .post('/api/v1/user-profile/auth-token/', {
-          phone_number: '001' + this.phone_number,
+          phone_number: '0' + this.phone_number,
           code: this.user_code
         })
         .then(res => {
