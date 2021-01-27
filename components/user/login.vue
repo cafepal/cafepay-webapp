@@ -27,6 +27,7 @@
                 <img width="32" src="~/assets/img/flags/ca.png" />
               </p>
               <b-input
+                @keyup.native.enter="sendCode"
                 ref="phoneInputProfile"
                 dir="ltr"
                 inputmode="numeric"
@@ -52,6 +53,7 @@
             </div>
             <b-field class="field">
               <b-input
+                @keyup.native.enter="checkCode"
                 ref="codeInput"
                 inputmode="numeric"
                 class="cp-input cp-input-primary cp-input-grey"
@@ -86,6 +88,7 @@
 
             <b-field>
               <b-input
+                @keyup.native.enter="signup"
                 :dir="$dir()"
                 v-model="first_name"
                 class="cp-input cp-input-primary cp-input-grey"
