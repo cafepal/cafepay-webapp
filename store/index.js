@@ -43,6 +43,8 @@ export const mutations = {
     state.socket.message = JSON.parse(rawMessage.data)
     let message = state.socket.message.message
 
+    if (!message.source)
+      return
 
     // check if message is for table watch
     let token = message.source.split('table.')[1].split('.join')[0]
