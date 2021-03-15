@@ -1,7 +1,8 @@
-FROM node
-Run npm install -g npm@7.6.3
-
+FROM node:14.16.0
+WORKDIR /app
 COPY . .
-RUN npm install
+RUN yarn
+RUN yarn add
 RUN npm run build
+
 CMD ["npm", "run", "start"]
