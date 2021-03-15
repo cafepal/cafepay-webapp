@@ -90,3 +90,5 @@ package-lock.json
 
 baseUrl.js
 config.js
+
+docker_data

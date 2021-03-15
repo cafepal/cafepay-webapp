@@ -87,3 +87,11 @@ sw.*
 # Mac OSX
 .DS_Store
 package-lock.json
+
+Dockerfile
+nginx.conf
+docker-compose.yml
+docker_data
+.dockerignore
+.gitignore
+init-letsencrypt.sh

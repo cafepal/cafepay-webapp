@@ -1,8 +1,7 @@
 FROM node:14.16.0
 WORKDIR /app
-COPY . .
+COPY package.json .
 RUN yarn
-RUN yarn add
-RUN npm run build
 
-CMD ["npm", "run", "start"]
+COPY . .
+RUN npm run build

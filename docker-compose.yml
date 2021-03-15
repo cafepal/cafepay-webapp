@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx
+    ports: 
+      - "7676:9999"
+    volumes: 
+      - ./nginx.conf:/etc/nginx/conf.d/webapp.conf
+    depends_on: 
+      - webapp
+  webapp:
+    build: .
+    command: npm run start
