@@ -7,22 +7,49 @@
       :callbacks="myCallbacks"
     ></v-tour>
 
+
+          <b-modal class="simple-action-modal" :active.sync="descriptionModalActive" has-modal-card >
+        <div class="modal-card" style="width: auto">
+
+          <section class="modal-dialog">
+            <b-field>
+              <b-input ref="descriptionInput" class="is-noborder-input" 
+              v-model="description" maxlength="200" type="textarea" placeholder="توضیحات خود را در مورد سفارشات بنویسید"></b-input>
+            </b-field>
+          </section>
+
+          <section class="modal-caption"></section>
+
+          <section class="modal-action">
+            <b-button :loading="globalLoading" class="button ma-child is-info" type="button" @click="submitDescription">ثبت توضیحات</b-button>
+          </section>
+          
+        </div>
+      </b-modal>
+
     <div id="selected-products-preview" 
     class="selected-products-preview-is-shown"
     v-if="tokenType !== 'menu-only' && !isPaymentOnly && (!user.table_uuid || (user.table_uuid && !ordersPaid))">
       <span v-if="!isClosed && !tour">{{ordersTotalCount}}</span>
+       <!-- <b-button class="add-description-radio" 
+        icon-left="note-edit-outline">
+      </b-button> -->
+        <button class="add-description-radio shadow-lg" @click="openDescriptionModal">
+      <img 
+      src='@/assets/img/shape/icons/icon8/icons8-ball-point-pen.gif' alt="">
+        </button>
       <b-button
         @click="productsPayloadSeperator"
         :loading="globalLoading"
-        class="button shadow-md bcp-btn cp-btn-submit-order shadow-lg-bb"
+        class="button bcp-btn cp-btn-submit-order shadow-lg-bb"
         size="is-medium"
         :type="(isClosed) ? 'is-dark' : 'is-info'"
         :disabled="tour"
         >
         {{ (!isClosed) ? $t('menu_page.submit_order') : $t('menu_page.cafe_is_closed') }}
         <span v-if="tokenType == 'pre-order'" dir="rtl" class="font-bold font-14">({{ $t('menu_page.submit_order_self_pickup') }})</span>
-        </b-button
-      >
+        </b-button>
+
     </div>
 
     <div :class="{'cp-l-margin-inverted': ($dir() == 'rtl'), 'cp-r-margin-inverted': ($dir() == 'ltr')}" class="category-list" id="menu-category-list" ref="menuCategoryList">
@@ -136,6 +163,8 @@ export default {
       totalPrice: 0,
       orderList: [],
       tour: false,
+      description: null,
+      descriptionModalActive: false,
       productDefaultImage,
       // slideTransition: 'slide-category-next',
       myOptions: {
@@ -210,6 +239,33 @@ export default {
         this.showSwipableMenu = true
       });
     },
+
+    submitDescription(){
+       this.descriptionModalActive = false
+      // this.$api
+      // .put(`/api/v1/join/${this.table.joinId}/set/description/`, {
+      //   description: this.description,
+      // })
+      // .then(res => {
+      //    this.descriptionModalActive = false
+      //     this.toaster('توضیحات با موفقیت ثبت شد', 'is-info', 'is-bottom')
+      // })
+      
+      // .catch(err => {
+      //   if (err.response) {
+      //      this.toaster('خطا در ثبت توضیحات', 'is-danger', 'is-bottom')
+      //     console.log(err.response.data)
+      //   }
+      // })
+    },
+
+    openDescriptionModal(){
+      this.descriptionModalActive = true
+      setTimeout(() => {
+        this.$refs.descriptionInput.focus()
+      }, 200)
+    },
+
     handleSlideMove(offset) {
       if(!this.sliderMoving){
         this.sliderMoving = true
@@ -313,7 +369,8 @@ export default {
           .dispatch('table/changeProductsOnTable', {
             add: additionPayload,
             del: deletionPayload,
-            state: requestState
+            state: requestState,
+            description: this.description
           })
           .then(res => {
             resolve(res)
@@ -533,6 +590,13 @@ export default {
     menuTabItemCategories(_newValue, _oldValue){
       this.reRenderSwipable();
       this.setActiveTab(true);
+    },
+        table: {
+      deep: true,
+      immediate: true,
+      handler(val, oldValue) {
+        if (val.description) this.description = val.description
+      }
     },
     // initialTour: {
     //   immediate: true,

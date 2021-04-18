@@ -206,14 +206,16 @@ export const actions = {
         })
         axios.all([
             axios.post(context.$config.baseUrl + `api/v1/table/${context.state.token}/products/bulk/post/`, {
-              table_products: req.add
+              table_products: req.add,
+              description: req.description
             }, {
               headers: {
                 'Authorization': 'Token ' + context.rootState.token,
               }
             }, ),
             axios.post(context.$config.baseUrl + `api/v1/table/${context.state.token}/products/bulk/delete/`, {
-              table_products: req.del
+              table_products: req.del,
+              description: req.description
             }, {
               headers: {
                 'Authorization': 'Token ' + context.rootState.token,
@@ -258,7 +260,8 @@ export const actions = {
         let table_products = (method == 'post') ? req.add : req.del
 
         this.$api.$post(`api/v1/table/${context.state.token}/products/bulk/${method}/`, {
-            table_products
+            table_products,
+            description: req.description
           })
           .then(res => {
             if (context.rootState.cafe.tokenType == 'pre-order') context.commit('setKeepAlive')
