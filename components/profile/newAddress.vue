@@ -45,7 +45,7 @@
           ></b-input>
         </b-field>
         <!-- Just for making nuxt load the image -->
-        <!-- <img src="~/assets/map-marker.png" /> -->
+        <img src="~/assets/map-marker.png" style="display: none" />
           <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" v-if="newAddressModalState == newAddressModalStateEnum.MAP"
                   data-projection="EPSG:4326" style="height: 55vh; max-width: 600px; margin: auto; margin-bottom: 10px;">
             <vl-view :zoom.sync="mapZoom" :center.sync="mapCenter" :rotation.sync="mapRotation"></vl-view>
