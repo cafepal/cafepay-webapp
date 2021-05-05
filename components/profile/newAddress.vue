@@ -20,7 +20,7 @@
             <option v-for="(city, i) in cities" :key="i" :value="city.pk">{{city.name}}</option>
           </b-select>
         </b-field> -->
-        <b-field label="منطقه (محله)">
+        <b-field label="منطقه (محله)" @click.native="newAddressModalState = newAddressModalStateEnum.MAP">
           <b-autocomplete expanded
             :disabled="!addressLocal.city || newAddressModalState != newAddressModalStateEnum.MAP"
             v-model="regionName"
@@ -45,7 +45,7 @@
           ></b-input>
         </b-field>
         <!-- Just for making nuxt load the image -->
-        <img src="~/static/map-marker.png" style="display: none;"/>
+        <img src="~/static/map-marker.png" />
           <vl-map :load-tiles-while-animating="true" :load-tiles-while-interacting="true" v-if="newAddressModalState == newAddressModalStateEnum.MAP"
                   data-projection="EPSG:4326" style="height: 55vh; max-width: 600px; margin: auto; margin-bottom: 10px;">
             <vl-view :zoom.sync="mapZoom" :center.sync="mapCenter" :rotation.sync="mapRotation"></vl-view>
@@ -119,7 +119,6 @@
     props: ['newAddressModal', 'address'],
     data() {
       return {
-        mapUnchanged: true,
         newAddressModalStateEnum,
         newAddressModalState: newAddressModalStateEnum.MAP,
         mapRotation: 0,
@@ -141,6 +140,17 @@
     this.getCityList()
   },
   methods: {
+    clearData(){
+      this.newAddressModalState = this.newAddressModalStateEnum.MAP
+      Vue.set(this, 'addressLocal', {
+        city: 1,
+        region: null,
+        address: null
+      })
+      this.mapCenter = [52.53951505968019, 29.61462220649139]
+      this.locationSetByGeoPosition = false
+      this.regionName = ''
+    },
     regionSelected(region) {
       if(region) {
         this.addressLocal.region = region.pk
@@ -178,6 +188,7 @@
           let address = Object.assign({}, res.data)
           address.region = this.currentCity.regions.find(r => r.pk == address.region)
           this.$emit('addressSubmitted', address)
+          this.clearData()
         })
         .catch(err => {
           if (err.response) {
@@ -209,7 +220,7 @@
     },
     address(val) {
       if(val) {
-        this.mapUnchanged = false;
+        this.newAddressModalState = this.newAddressModalStateEnum.MAP
         Vue.set(this, 'addressLocal', {
           city: val.region.city.pk,
           region: val.region.pk,
@@ -217,12 +228,7 @@
         })
         this.mapCenter = [val.lon, val.lat]
       } else {
-        this.mapUnchanged = true;
-        Vue.set(this, 'addressLocal', {
-          city: 1,
-          region: null,
-          address: null
-        })
+        this.clearData();
       }
     },
     newAddressModal(val, oldValue) {
