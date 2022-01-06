@@ -79,13 +79,13 @@
       </div>
     </b-modal>
     <div class="camera">
-      <component
+      <!-- <component
         @decode="onDecode"
         :is="qrcodeComponentLaunch"
         v-if="letsUseCamera"
-      ></component>
+      ></component> -->
 
-      <!-- <qrcode-stream  @decode="onDecode"></qrcode-stream> -->
+      <client-only><qrcode-stream v-if="launchCamera"  @decode="onDecode"></qrcode-stream> </client-only>
       <div id="qr-animation"></div>
    
     </div>
@@ -123,12 +123,12 @@ import qrIcon from '~/assets/img/shape/icons/qr-code-scan.svg'
 import lottie from 'lottie-web'
 import login from '~/components/user/login'
 import Vue from 'vue'
-import { QrcodeStream } from 'vue-qrcode-reader'
+// import { QrcodeStream } from 'vue-qrcode-reader'
 import { mapActions } from 'vuex'
 
 export default {
   components: {
-    QrcodeStream,
+    // QrcodeStream: () => import('vue-qrcode-reader'),
     login,
   },
   data() {
@@ -137,7 +137,7 @@ export default {
       // TODO: handle wrong token from url in a better way to
       // let user scan code again when entered wrong token
       letsUseCamera: !this.$route.query.token,
-
+      launchCamera: false,
       xyz: true,
       animationJson,
       loaderJson,
@@ -160,7 +160,8 @@ export default {
     },
     openCamera() {
       this.accessCameraActive = false
-      this.qrcodeComponentLaunch = QrcodeStream
+      this.launchCamera = true
+      // this.qrcodeComponentLaunch = QrcodeStream
     },
     onDecode(token) {
       // token proccessor called by camera or input if it is called by camera it returns string if not it's an input entery
@@ -179,14 +180,55 @@ export default {
       this.tokenProccessor(token)
     },
 
-    tokenProccessor(token) {
-      if (typeof token == 'string') {
-        this.tableCode = token.split('?token=')[1]
+    tokenProccessor(urlWithToken) {
+      if (typeof urlWithToken == 'string') {
+        // demo token
+        if (urlWithToken == 'https://cafepay.app/?1111') {
+          this.tableCode = '12345'
+        } else {
+          // get subdomain (will be 'cafepay' if running on original domain)
+          let subdomain = urlWithToken.split('//')[1].split('.')[0]
+          // check if we are not in localhost
+          let isCafepaySubDomain = urlWithToken.includes('cfpy.ir')
+                          || urlWithToken.includes('cafepay.app')
+                          || urlWithToken.includes('cafehedayat.com')
+                          || urlWithToken.includes('likardbistro.ir')
+          let isNotReservedSubDomain = !['m', 'cafepay', 'test', 't', 'cfpy'].includes(subdomain)
+          if(isCafepaySubDomain && isNotReservedSubDomain) {
+            this.tableCode = subdomain
+          } else {
+            // will be undefined if no token is in query params
+            this.tableCode = urlWithToken.split('?token=')[1]
+          }
+        }
       }
-      this.dispatchSendCode()
-      
+      if(this.tableCode) {
+        this.dispatchSendCode()
+      } else {
+        // enable camera if token is not in sub domain or query params
+        this.doLaunchCamera()
+      }
     },
-
+    doLaunchCamera(){
+      // if navigator is supported for camera ask for permission if not just try to initial camera component
+      if (navigator.permissions) {
+        navigator.permissions
+          .query({ name: 'camera' })
+          .then((permissionStatus) => {
+            if (permissionStatus.state == 'prompt') {
+              if (!this.$route.query.token) {
+                this.accessCameraActive = true
+              }
+            } else if (permissionStatus.state == 'granted') {
+              this.launchCamera = true
+              // this.qrcodeComponentLaunch = null
+            }
+          })
+      } else {
+        this.launchCamera = true
+        // this.qrcodeComponentLaunch = null
+      }
+    },
     dispatchSendCode() {
       // u need to set the table too, for api link
       this.CustomLoader = true
@@ -229,13 +271,15 @@ export default {
 
           if (err.response) {
           //  it means wrong table token
-            if (err.response.status == 404) {
+            if (err.response.status == 404 || err.response.status == 400) {
               this.$buefy.toast.open({
                 duration: 3000,
                 message: this.$t('scan_page.code_incorrect'),
                 position: 'is-top',
                 type: 'is-danger',
               })
+              // make sure user can use camera again
+              this.doLaunchCamera()
             }
             
             // it means user is not logged in and table requires it so we open login modal
@@ -281,11 +325,11 @@ export default {
     })
     qrAnimeObj.play()
 
-    if (this.$route.query.token) {
-      console.log('route', this.$route)
+    // if (this.$route.query.token) {
+    //   console.log('route', this.$route)
       // this.tableCode = this.$route.fullPath.split('?token=')[1]
-      this.tokenProccessor(this.$route.fullPath)
-    }
+    this.tokenProccessor(window.location.href)
+    // }
 
     // if user is redirected from link for menu-only there is no need for initial camera
     if (this.storeRedirect) {
@@ -297,18 +341,6 @@ export default {
       //   value: 'no-value',
       //   noninteraction: false, // Optional
       // })
-    } else {
-      // if navigator is supported for camera ask for permission if not just try to initial camera component
-      if (navigator.permissions) {
-        navigator.permissions
-          .query({ name: 'camera' })
-          .then((permissionStatus) => {
-            if (permissionStatus.state == 'prompt')
-              this.accessCameraActive = true
-            else if (permissionStatus.state == 'granted')
-              this.qrcodeComponentLaunch = QrcodeStream
-          })
-      } else this.qrcodeComponentLaunch = QrcodeStream
     }
   },
   computed: {
@@ -330,7 +362,15 @@ export default {
       return token
     },
   },
-  watch: {},
+  watch: {
+      // '$route.query.token': (val) => {
+      //     if (val) {
+      //   console.log('route', this.$route)
+      //   this.tokenProccessor(this.$route.fullPath)
+      //   }
+      // }
+    
+  },
 }
 </script>
 
