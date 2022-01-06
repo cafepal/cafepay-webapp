@@ -161,7 +161,7 @@ export default {
   data() {
     return {
       state: 'login',
-      phone_number: '',
+      phone_number: '18338483848',
       user_code: '',
       first_name: '',
       last_name: '',
@@ -212,7 +212,7 @@ export default {
       let phone_numberEn = this.convertPersian(this.phone_number)
       if (phone_numberEn.match(validation)) {
         if(this.$i18n.locale == 'en') {
-          phone_numberEn = '0' + phone_numberEn;
+          phone_numberEn = '00' + phone_numberEn;
         }
         this.$axios
           .post('api/v1/user-profile/send-code/', {
@@ -246,7 +246,7 @@ export default {
     checkCode() {
       this.$axios
         .post('/api/v1/user-profile/auth-token/', {
-          phone_number: '0' + this.phone_number,
+          phone_number: '00' + this.phone_number,
           code: this.user_code
         })
         .then(res => {
