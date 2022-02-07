@@ -196,6 +196,7 @@ export default {
       accessCameraActive: false,
       loginModalActive: false,
       selectTableModalActive: false,
+      selectedTableLog: null,
     }
   },
   methods: {
@@ -260,14 +261,11 @@ export default {
         this.$axios.post('v1/raw-log/create/', {
           text: JSON.stringify({
             token: this.tableCode,
-            mode: scanMode
+            mode: scanMode,
+            user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
           })
         })
-        if(Object.values(likardTables).includes(this.tableCode)) {
-          this.selectTableModalActive = true
-        } else {
-          this.dispatchSendCode()
-        }
+        this.dispatchSendCode()
       } else {
         // enable camera if token is not in sub domain or query params
         this.doLaunchCamera()
@@ -278,25 +276,19 @@ export default {
       const currentTableName = Object.keys(likardTables).find(key => likardTables[key] === this.tableCode);
 
       if(this.tableCode) {
-        this.$axios.post('v1/raw-log/create/', {
-          text: JSON.stringify({
+        this.selectedTableLog = {
             typ: "table-selection",
             status: currentTableName == selectedTableName ? "correct" : "incorrect",
             currentTableName,
             selectedTableName,
-            user: this.user ? this.user.phone_number : "none",
-          })
-        })
+          }
       } else {
         this.tableCode = selectedTableCode;
-        this.$axios.post('v1/raw-log/create/', {
-          text: JSON.stringify({
-            typ: "table-selection",
-            status: "selected by table selector, likard.ir",
-            selectedTableName,
-            user: this.user ? this.user.phone_number : "none",
-          })
-        })
+        this.selectedTableLog = {
+          typ: "table-selection",
+          status: "selected by table selector, likard.ir",
+          selectedTableName,
+        }
       }
       this.dispatchSendCode()
     },
@@ -321,6 +313,11 @@ export default {
       }
     },
     dispatchSendCode() {
+      const isLikardTable = Object.values(likardTables).includes(this.tableCode)
+      if(isLikardTable && !this.selectedTableLog && this.userIsloggedIn) {
+        this.selectTableModalActive = true
+        return
+      }
       // u need to set the table too, for api link
       this.CustomLoader = true
       // initial preloader
@@ -341,6 +338,13 @@ export default {
       this.sendCode({tableToken, hasToken :this.userIsloggedIn})
 
         .then((res) => {
+          if(isLikardTable) {
+            this.$axios.post('v1/raw-log/create/', {
+              text: JSON.stringify(Object.assign({}, this.selectedTableLog, {
+                user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
+              }))
+            })
+          }
           this.enterCodeModalActive = false
           this.CustomLoader = false
 
