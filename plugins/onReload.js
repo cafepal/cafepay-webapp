@@ -10,13 +10,22 @@ export default ({ app, store }) => {
         }
         return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
     }
-    app.$cookies.set('CafepayWebappToken', cookieValObject, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-      domain: getDomainName(),
-      sameSite: 'none',
-      secure: true,
-    })
+    const domain = getDomainName();
+    if(domain.includes('localhost') || ('0' <= domain[0] && domain[0] <= '9')) {
+      app.$cookies.set('CafepayWebappToken', cookieValObject, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+        domain,
+      })
+    } else {
+      app.$cookies.set('CafepayWebappToken', cookieValObject, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+        domain,
+        sameSite: 'none',
+        secure: true
+      })
+    }
   }
 
   let token = app.$cookies.get('CafepayWebappToken')

@@ -78,6 +78,30 @@
         </footer> -->
       </div>
     </b-modal>
+    <b-modal
+      :can-cancel="false"
+      :active.sync="selectTableModalActive"
+      has-modal-card
+      class="simple-action-modal"
+    >
+    
+      <div class="modal-card" >
+        <section class="modal-dialog">
+          <p>
+            لطفا شماره میزتان را انتخاب کنید
+          </p>
+          <!-- <img src="@/assets/img/camera-guide.png" alt="" /> -->
+        </section>
+        <div style="width: auto; display: flex; flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-around; padding-bottom: 10px;">
+        <b-button :key="i" @click="selectTable(i)" type="primary" style="width: 30%;
+            height: 45px; margin-top: 10px; color: white;" v-for="(table, i) in likardTables">
+          {{ i }}
+        </b-button>
+        </div>
+      </div>
+    </b-modal>
     <div class="camera">
       <!-- <component
         @decode="onDecode"
@@ -133,6 +157,19 @@ const ScanType = Object.freeze({
   DOMAIN_NAME: 'domain_name',
 })
 
+const likardTables = {
+  "1": "105208",
+  "2": "104056",
+  "3": "103696",
+  "4": "104657",
+  "5": "104438",
+  "6": "103905",
+  "7": "105154",
+  "8": "105162",
+  "9": "103762",
+  "10": "104142",
+}
+
 export default {
   components: {
     // QrcodeStream: () => import('vue-qrcode-reader'),
@@ -140,7 +177,7 @@ export default {
   },
   data() {
     return {
-      
+      likardTables,
       // TODO: handle wrong token from url in a better way to
       // let user scan code again when entered wrong token
       letsUseCamera: !this.$route.query.token,
@@ -158,6 +195,7 @@ export default {
       tableCode: '',
       accessCameraActive: false,
       loginModalActive: false,
+      selectTableModalActive: false,
     }
   },
   methods: {
@@ -205,8 +243,8 @@ export default {
           let isCafepaySubDomain = urlWithToken.includes('cfpy.ir')
                           || urlWithToken.includes('cafepay.app')
                           || urlWithToken.includes('cafehedayat.com')
-                          || urlWithToken.includes('likardbistro.ir')
-                          || urlWithToken.includes('likard.ir')
+                          // || urlWithToken.includes('likardbistro.ir')
+                          // || urlWithToken.includes('likard.ir')
           let isNotReservedSubDomain = !['m', 'cafepay', 'test', 't', 'cfpy', 'en'].includes(subdomain)
           if(isCafepaySubDomain && isNotReservedSubDomain) {
             this.tableCode = subdomain
@@ -225,11 +263,42 @@ export default {
             mode: scanMode
           })
         })
-        this.dispatchSendCode()
+        if(Object.values(likardTables).includes(this.tableCode)) {
+          this.selectTableModalActive = true
+        } else {
+          this.dispatchSendCode()
+        }
       } else {
         // enable camera if token is not in sub domain or query params
         this.doLaunchCamera()
       }
+    },
+    selectTable(selectedTableName) {
+      const selectedTableCode = likardTables[selectedTableName]
+      const currentTableName = Object.keys(likardTables).find(key => likardTables[key] === this.tableCode);
+
+      if(this.tableCode) {
+        this.$axios.post('v1/raw-log/create/', {
+          text: JSON.stringify({
+            typ: "table-selection",
+            status: currentTableName == selectedTableName ? "correct" : "incorrect",
+            currentTableName,
+            selectedTableName,
+            user: this.user ? this.user.phone_number : "none",
+          })
+        })
+      } else {
+        this.tableCode = selectedTableCode;
+        this.$axios.post('v1/raw-log/create/', {
+          text: JSON.stringify({
+            typ: "table-selection",
+            status: "selected by table selector, likard.ir",
+            selectedTableName,
+            user: this.user ? this.user.phone_number : "none",
+          })
+        })
+      }
+      this.dispatchSendCode()
     },
     doLaunchCamera(){
       // if navigator is supported for camera ask for permission if not just try to initial camera component
@@ -335,6 +404,9 @@ export default {
     // }
   },
   mounted() {
+    if(window.location.host == 'likard.ir') {
+      this.selectTableModalActive = true
+    }
     let h = window.innerHeight
     $('.camera').css({ height: h })
 

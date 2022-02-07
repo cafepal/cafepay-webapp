@@ -105,13 +105,22 @@ export const mutations = {
         let hostName = window.location.host;
         return hostName.substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1);
     }
-    this.$cookies.set('CafepayWebappToken', cookieValObject, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-      domain: getDomainName(),
-      sameSite: 'none',
-      secure: true
-    })
+    const domain = getDomainName();
+    if(domain.includes('localhost') || ('0' <= domain[0] && domain[0] <= '9')) {
+      this.$cookies.set('CafepayWebappToken', cookieValObject, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+        domain,
+      })
+    } else {
+      this.$cookies.set('CafepayWebappToken', cookieValObject, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7,
+        domain,
+        sameSite: 'none',
+        secure: true
+      })
+    }
   },
   clearToken(state) {
     localStorage.removeItem('token')
