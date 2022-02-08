@@ -170,6 +170,22 @@ const likardTables = {
   "10": "104142",
 }
 
+function generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if(d > 0){//Use timestamp until depleted
+            r = (d + r)%16 | 0;
+            d = Math.floor(d/16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r)%16 | 0;
+            d2 = Math.floor(d2/16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
 export default {
   components: {
     // QrcodeStream: () => import('vue-qrcode-reader'),
@@ -197,6 +213,8 @@ export default {
       loginModalActive: false,
       selectTableModalActive: false,
       selectedTableLog: null,
+      scanMode: null,
+      sessionId: generateUUID()
     }
   },
   methods: {
@@ -227,11 +245,11 @@ export default {
     },
 
     tokenProccessor(urlWithToken, fromWebappScanner) {
-      let scanMode = null;
+      this.scanMode = null;
       if(fromWebappScanner == true) {
-        scanMode = ScanType.WEBAPP_SCANNER
+        this.scanMode = ScanType.WEBAPP_SCANNER
       } else if(this.tableCode) {
-        scanMode = ScanType.TABLE_CODE
+        this.scanMode = ScanType.TABLE_CODE
       }
       if (typeof urlWithToken == 'string') {
         // demo token
@@ -249,11 +267,11 @@ export default {
           let isNotReservedSubDomain = !['m', 'cafepay', 'test', 't', 'cfpy', 'en'].includes(subdomain)
           if(isCafepaySubDomain && isNotReservedSubDomain) {
             this.tableCode = subdomain
-            scanMode = scanMode ?? ScanType.DOMAIN_NAME
+            this.scanMode = this.scanMode ?? ScanType.DOMAIN_NAME
           } else {
             // will be undefined if no token is in query params
             this.tableCode = urlWithToken.split('?token=')[1]
-            scanMode = scanMode ?? ScanType.LINK
+            this.scanMode = this.scanMode ?? ScanType.LINK
           }
         }
       }
@@ -261,8 +279,9 @@ export default {
         this.$axios.post('v1/raw-log/create/', {
           text: JSON.stringify({
             token: this.tableCode,
-            mode: scanMode,
+            mode: this.scanMode,
             user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
+            sessionId: this.sessionId
           })
         })
         this.dispatchSendCode()
@@ -314,7 +333,26 @@ export default {
     },
     dispatchSendCode() {
       const isLikardTable = Object.values(likardTables).includes(this.tableCode)
+
+      this.$axios.post('v1/raw-log/create/', {
+        text: JSON.stringify({
+          token: this.tableCode,
+          mode: this.scanMode,
+          dispatchSendCode: true,
+          user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
+          sessionId: this.sessionId
+        })
+      })
       if(isLikardTable && !this.selectedTableLog && this.userIsloggedIn) {
+        this.$axios.post('v1/raw-log/create/', {
+          text: JSON.stringify({
+            token: this.tableCode,
+            mode: this.scanMode,
+            isLikardTable: true,
+            user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
+            sessionId: this.sessionId
+          })
+        })
         this.selectTableModalActive = true
         return
       }
@@ -342,6 +380,7 @@ export default {
             this.$axios.post('v1/raw-log/create/', {
               text: JSON.stringify(Object.assign({}, this.selectedTableLog, {
                 user: (this.user && this.user.phone_number) ? this.user.phone_number : "none",
+                sessionId: this.sessionId
               }))
             })
           }
