@@ -13,7 +13,7 @@
         <img class="no-pic" src="@/assets/img/shape/icons/icon8/profile/contact-us-due.png" alt />
         <h4 class="header cp-tb-padding cp-side-padding">تماس با ما</h4>
         <p :dir="$dir()" class="detail cp-tb-padding cp-side-padding">
-          ارتباط با پشتیبانی
+          ارتباط با مجموعه
           <!-- <span class="p-text font-18">خدافز</span> -->
         </p>
       </div>
@@ -38,7 +38,7 @@
       </div>
       </a>
 
-      <a href="tel:0917-116-4374"  data-rel="external">
+      <!-- <a href="tel:0917-116-4374"  data-rel="external">
       <div class="profile-contact__card cp-side-padding cp-tb-padding-2x">
         <img src="@/assets/img/shape/icons/icon8/profile/icons8-online-support-96.png" alt="" />
         <div class="profile-contact__card__text cp-side-padding">
@@ -49,7 +49,7 @@
           <b-icon icon="phone"></b-icon>
         </div>
       </div>
-      </a>
+      </a> -->
 
     </section>
   </div>
