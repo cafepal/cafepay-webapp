@@ -22,8 +22,8 @@ export default {
     port: config.CAFEPAY_WEBAPP_NUXT_PORT,
     host: config.CAFEPAY_WEBAPP_NUXT_HOST,
   },
-  ssr: true,
-  target: 'server',
+  ssr: false,
+  target: 'static',
   /*
    ** Headers of the page
    */
